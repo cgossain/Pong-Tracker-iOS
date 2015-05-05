@@ -7,13 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		869BC9B51AF842810095A8B9 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BC9B41AF842810095A8B9 /* RootView.swift */; };
+		869BC9B71AF868A80095A8B9 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BC9B61AF868A80095A8B9 /* TeamViewController.swift */; };
+		869BC9B91AF868F70095A8B9 /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BC9B81AF868F70095A8B9 /* TeamView.swift */; };
+		869BC9BB1AF877320095A8B9 /* TeamViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BC9BA1AF877320095A8B9 /* TeamViewHeaderView.swift */; };
+		869BC9BD1AF87AE70095A8B9 /* ControlPadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BC9BC1AF87AE70095A8B9 /* ControlPadViewController.swift */; };
 		86E853C31AF6D490008CB469 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E853C21AF6D490008CB469 /* AppDelegate.swift */; };
 		86E853C61AF6D490008CB469 /* Pong_Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 86E853C41AF6D490008CB469 /* Pong_Tracker.xcdatamodeld */; };
-		86E853C81AF6D490008CB469 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E853C71AF6D490008CB469 /* ViewController.swift */; };
 		86E853CB1AF6D490008CB469 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86E853C91AF6D490008CB469 /* Main.storyboard */; };
 		86E853CD1AF6D490008CB469 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86E853CC1AF6D490008CB469 /* Images.xcassets */; };
 		86E853D01AF6D490008CB469 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86E853CE1AF6D490008CB469 /* LaunchScreen.xib */; };
 		86E853DC1AF6D490008CB469 /* Pong_TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E853DB1AF6D490008CB469 /* Pong_TrackerTests.swift */; };
+		86E853E61AF6E048008CB469 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E853E51AF6E048008CB469 /* RootViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,17 +32,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		869BC9B41AF842810095A8B9 /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		869BC9B61AF868A80095A8B9 /* TeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
+		869BC9B81AF868F70095A8B9 /* TeamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
+		869BC9BA1AF877320095A8B9 /* TeamViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewHeaderView.swift; sourceTree = "<group>"; };
+		869BC9BC1AF87AE70095A8B9 /* ControlPadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ControlPadViewController.swift; sourceTree = "<group>"; };
 		86E853BD1AF6D490008CB469 /* Pong-Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pong-Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E853C11AF6D490008CB469 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86E853C21AF6D490008CB469 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86E853C51AF6D490008CB469 /* Pong_Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Pong_Tracker.xcdatamodel; sourceTree = "<group>"; };
-		86E853C71AF6D490008CB469 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		86E853CA1AF6D490008CB469 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		86E853CC1AF6D490008CB469 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		86E853CF1AF6D490008CB469 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		86E853D51AF6D490008CB469 /* Pong-TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pong-TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E853DA1AF6D490008CB469 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86E853DB1AF6D490008CB469 /* Pong_TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pong_TrackerTests.swift; sourceTree = "<group>"; };
+		86E853E51AF6E048008CB469 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,11 +90,16 @@
 			isa = PBXGroup;
 			children = (
 				86E853C21AF6D490008CB469 /* AppDelegate.swift */,
-				86E853C71AF6D490008CB469 /* ViewController.swift */,
+				86E853E51AF6E048008CB469 /* RootViewController.swift */,
+				869BC9B61AF868A80095A8B9 /* TeamViewController.swift */,
+				869BC9B81AF868F70095A8B9 /* TeamView.swift */,
+				869BC9BA1AF877320095A8B9 /* TeamViewHeaderView.swift */,
+				869BC9BC1AF87AE70095A8B9 /* ControlPadViewController.swift */,
 				86E853C91AF6D490008CB469 /* Main.storyboard */,
 				86E853CC1AF6D490008CB469 /* Images.xcassets */,
 				86E853CE1AF6D490008CB469 /* LaunchScreen.xib */,
 				86E853C41AF6D490008CB469 /* Pong_Tracker.xcdatamodeld */,
+				869BC9B41AF842810095A8B9 /* RootView.swift */,
 				86E853C01AF6D490008CB469 /* Supporting Files */,
 			);
 			path = "Pong-Tracker";
@@ -215,9 +230,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86E853C81AF6D490008CB469 /* ViewController.swift in Sources */,
 				86E853C61AF6D490008CB469 /* Pong_Tracker.xcdatamodeld in Sources */,
+				86E853E61AF6E048008CB469 /* RootViewController.swift in Sources */,
 				86E853C31AF6D490008CB469 /* AppDelegate.swift in Sources */,
+				869BC9B51AF842810095A8B9 /* RootView.swift in Sources */,
+				869BC9B71AF868A80095A8B9 /* TeamViewController.swift in Sources */,
+				869BC9BB1AF877320095A8B9 /* TeamViewHeaderView.swift in Sources */,
+				869BC9BD1AF87AE70095A8B9 /* ControlPadViewController.swift in Sources */,
+				869BC9B91AF868F70095A8B9 /* TeamView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +435,7 @@
 				86E853E11AF6D490008CB469 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		86E853E21AF6D490008CB469 /* Build configuration list for PBXNativeTarget "Pong-TrackerTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +444,7 @@
 				86E853E41AF6D490008CB469 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Root View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="RootViewController" customModule="Pong_Tracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +16,165 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fUN-Fu-MEg">
+                                <rect key="frame" x="0.0" y="0.0" width="299" height="378"/>
+                                <connections>
+                                    <segue destination="AiO-Rs-Xh9" kind="embed" id="LN9-IM-MNf"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hva-aO-VJh">
+                                <rect key="frame" x="0.0" y="380" width="600" height="220"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="220" id="Rbs-ye-UB8"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="bQp-bP-p9f" kind="embed" id="6C4-oh-qYb"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DCu-Ak-CBV">
+                                <rect key="frame" x="301" y="0.0" width="299" height="378"/>
+                                <connections>
+                                    <segue destination="ufm-Jk-qdS" kind="embed" id="xNo-fw-3XZ"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fUN-Fu-MEg" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="2qt-kb-JcA"/>
+                            <constraint firstItem="hva-aO-VJh" firstAttribute="top" secondItem="fUN-Fu-MEg" secondAttribute="bottom" constant="8" id="9Ha-9O-AJn"/>
+                            <constraint firstItem="DCu-Ak-CBV" firstAttribute="leading" secondItem="fUN-Fu-MEg" secondAttribute="trailing" constant="2" id="CtC-ot-mAm"/>
+                            <constraint firstAttribute="trailing" secondItem="DCu-Ak-CBV" secondAttribute="trailing" id="Eaz-qL-bz4"/>
+                            <constraint firstItem="DCu-Ak-CBV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="Qgl-EZ-YxG"/>
+                            <constraint firstItem="DCu-Ak-CBV" firstAttribute="height" secondItem="fUN-Fu-MEg" secondAttribute="height" id="THe-In-2Pm"/>
+                            <constraint firstAttribute="trailing" secondItem="hva-aO-VJh" secondAttribute="trailing" id="YVz-Qx-KPY"/>
+                            <constraint firstItem="DCu-Ak-CBV" firstAttribute="width" secondItem="fUN-Fu-MEg" secondAttribute="width" id="hZv-wL-8Xw"/>
+                            <constraint firstItem="hva-aO-VJh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rZ1-1d-iW5"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="hva-aO-VJh" secondAttribute="bottom" id="tJj-sL-t2Q"/>
+                            <constraint firstItem="hva-aO-VJh" firstAttribute="top" secondItem="DCu-Ak-CBV" secondAttribute="bottom" constant="2" id="tmL-zq-jGr"/>
+                            <constraint firstItem="fUN-Fu-MEg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="zON-6m-TYZ"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="9Ha-9O-AJn"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="controlPadViewController" destination="hva-aO-VJh" id="E8X-Bm-3jI"/>
+                        <outlet property="firstTeamViewController" destination="fUN-Fu-MEg" id="Xae-Zs-OH3"/>
+                        <outlet property="secondTeamViewController" destination="DCu-Ak-CBV" id="swG-gT-9yu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Team View Controller-->
+        <scene sceneID="Xdc-Sz-YAU">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="AiO-Rs-Xh9" customClass="TeamViewController" customModule="Pong_Tracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UH4-p1-foi"/>
+                        <viewControllerLayoutGuide type="bottom" id="UPT-5v-5OJ"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="5S1-45-7ad" customClass="TeamView" customModule="Pong_Tracker" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="299" height="378"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.14117647059999999" green="0.60392156860000001" blue="0.83529411760000005" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rNU-b2-VUQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1306.5" y="-262"/>
+        </scene>
+        <!--Team View Controller-->
+        <scene sceneID="FGO-Nd-esX">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="ufm-Jk-qdS" customClass="TeamViewController" customModule="Pong_Tracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yqj-L2-EjL"/>
+                        <viewControllerLayoutGuide type="bottom" id="C6n-eG-YNj"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ae2-dw-KCm" customClass="TeamView" customModule="Pong_Tracker" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="299" height="378"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.14117647059999999" green="0.60392156860000001" blue="0.83529411760000005" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V5P-86-2m0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1306.5" y="300"/>
+        </scene>
+        <!--Control Pad View Controller-->
+        <scene sceneID="pae-gA-0on">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="bQp-bP-p9f" customClass="ControlPadViewController" customModule="Pong_Tracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Flx-2C-4Oa"/>
+                        <viewControllerLayoutGuide type="bottom" id="XFC-lO-xI6"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gtY-n6-4MT">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="220"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ois-Tg-FLS">
+                                <rect key="frame" x="281" y="45" width="39" height="30"/>
+                                <state key="normal" title="Swap">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTH-aI-mjw">
+                                <rect key="frame" x="226" y="95" width="48" height="30"/>
+                                <state key="normal" title="Replay">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Se5-lP-Se2">
+                                <rect key="frame" x="325" y="95" width="50" height="30"/>
+                                <state key="normal" title="Restart">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="acC-c1-RSl">
+                                <rect key="frame" x="282" y="145" width="36" height="30"/>
+                                <state key="normal" title="Stats">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="bTH-aI-mjw" secondAttribute="centerY" id="4Ex-JJ-kGZ"/>
+                            <constraint firstAttribute="centerY" secondItem="acC-c1-RSl" secondAttribute="centerY" constant="-50" id="8dV-fl-vfg"/>
+                            <constraint firstAttribute="centerX" secondItem="Ois-Tg-FLS" secondAttribute="centerX" id="94W-To-2aS"/>
+                            <constraint firstAttribute="centerX" secondItem="acC-c1-RSl" secondAttribute="centerX" id="Rjv-eg-9AM"/>
+                            <constraint firstAttribute="centerX" secondItem="Se5-lP-Se2" secondAttribute="centerX" constant="-50" id="SQ2-Va-QNW"/>
+                            <constraint firstItem="Se5-lP-Se2" firstAttribute="trailing" secondItem="gtY-n6-4MT" secondAttribute="trailingMargin" id="dyt-on-IUm"/>
+                            <constraint firstAttribute="centerY" secondItem="Ois-Tg-FLS" secondAttribute="centerY" constant="50" id="mIt-Oo-4Ro"/>
+                            <constraint firstAttribute="centerY" secondItem="Se5-lP-Se2" secondAttribute="centerY" id="mJs-RX-s2d"/>
+                            <constraint firstItem="XFC-lO-xI6" firstAttribute="top" secondItem="acC-c1-RSl" secondAttribute="bottom" constant="20" id="nil-T5-aRY"/>
+                            <constraint firstItem="bTH-aI-mjw" firstAttribute="leading" secondItem="gtY-n6-4MT" secondAttribute="leadingMargin" id="pO7-TU-DrQ"/>
+                            <constraint firstAttribute="centerX" secondItem="bTH-aI-mjw" secondAttribute="centerX" constant="50" id="vOj-uz-Juu"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="nil-T5-aRY"/>
+                                <exclude reference="pO7-TU-DrQ"/>
+                                <exclude reference="dyt-on-IUm"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iIi-j2-DZc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1457" y="810"/>
         </scene>
     </scenes>
 </document>

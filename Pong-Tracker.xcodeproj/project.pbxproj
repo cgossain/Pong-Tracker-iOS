@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		869BC9B51AF842810095A8B9 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BC9B41AF842810095A8B9 /* RootView.swift */; };
+		1048783C1B1BFFD900E4CB01 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1048783B1B1BFFD900E4CB01 /* GameManager.swift */; };
+		104F75DB1B13FB8100C5097E /* TeamSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104F75DA1B13FB8100C5097E /* TeamSelectorViewController.swift */; };
+		10B0B1361B212E570030BFF7 /* ScoreStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B0B1351B212E570030BFF7 /* ScoreStepper.swift */; };
 		869BC9B71AF868A80095A8B9 /* TeamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BC9B61AF868A80095A8B9 /* TeamViewController.swift */; };
 		869BC9B91AF868F70095A8B9 /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BC9B81AF868F70095A8B9 /* TeamView.swift */; };
 		869BC9BB1AF877320095A8B9 /* TeamViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869BC9BA1AF877320095A8B9 /* TeamViewHeaderView.swift */; };
@@ -18,7 +20,10 @@
 		86E853CD1AF6D490008CB469 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86E853CC1AF6D490008CB469 /* Images.xcassets */; };
 		86E853D01AF6D490008CB469 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 86E853CE1AF6D490008CB469 /* LaunchScreen.xib */; };
 		86E853DC1AF6D490008CB469 /* Pong_TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E853DB1AF6D490008CB469 /* Pong_TrackerTests.swift */; };
-		86E853E61AF6E048008CB469 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E853E51AF6E048008CB469 /* RootViewController.swift */; };
+		86E853E61AF6E048008CB469 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E853E51AF6E048008CB469 /* GameViewController.swift */; };
+		86F56FE41AF94706001F620A /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F56FE31AF94706001F620A /* Team.swift */; };
+		86F56FE61AF94715001F620A /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F56FE51AF94715001F620A /* Player.swift */; };
+		86F56FEA1AF9774E001F620A /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F56FE91AF9774E001F620A /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		869BC9B41AF842810095A8B9 /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		1048783B1B1BFFD900E4CB01 /* GameManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
+		104F75DA1B13FB8100C5097E /* TeamSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSelectorViewController.swift; sourceTree = "<group>"; };
+		10B0B1351B212E570030BFF7 /* ScoreStepper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreStepper.swift; sourceTree = "<group>"; };
 		869BC9B61AF868A80095A8B9 /* TeamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewController.swift; sourceTree = "<group>"; };
 		869BC9B81AF868F70095A8B9 /* TeamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamView.swift; sourceTree = "<group>"; };
 		869BC9BA1AF877320095A8B9 /* TeamViewHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamViewHeaderView.swift; sourceTree = "<group>"; };
@@ -47,7 +54,10 @@
 		86E853D51AF6D490008CB469 /* Pong-TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pong-TrackerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E853DA1AF6D490008CB469 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		86E853DB1AF6D490008CB469 /* Pong_TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pong_TrackerTests.swift; sourceTree = "<group>"; };
-		86E853E51AF6E048008CB469 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		86E853E51AF6E048008CB469 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		86F56FE31AF94706001F620A /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		86F56FE51AF94715001F620A /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		86F56FE91AF9774E001F620A /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,16 +100,19 @@
 			isa = PBXGroup;
 			children = (
 				86E853C21AF6D490008CB469 /* AppDelegate.swift */,
-				86E853E51AF6E048008CB469 /* RootViewController.swift */,
+				86E853E51AF6E048008CB469 /* GameViewController.swift */,
+				869BC9BC1AF87AE70095A8B9 /* ControlPadViewController.swift */,
 				869BC9B61AF868A80095A8B9 /* TeamViewController.swift */,
 				869BC9B81AF868F70095A8B9 /* TeamView.swift */,
 				869BC9BA1AF877320095A8B9 /* TeamViewHeaderView.swift */,
-				869BC9BC1AF87AE70095A8B9 /* ControlPadViewController.swift */,
+				104F75DA1B13FB8100C5097E /* TeamSelectorViewController.swift */,
+				1048783B1B1BFFD900E4CB01 /* GameManager.swift */,
+				10B0B1351B212E570030BFF7 /* ScoreStepper.swift */,
+				86F56FE71AF94837001F620A /* Model */,
 				86E853C91AF6D490008CB469 /* Main.storyboard */,
 				86E853CC1AF6D490008CB469 /* Images.xcassets */,
 				86E853CE1AF6D490008CB469 /* LaunchScreen.xib */,
 				86E853C41AF6D490008CB469 /* Pong_Tracker.xcdatamodeld */,
-				869BC9B41AF842810095A8B9 /* RootView.swift */,
 				86E853C01AF6D490008CB469 /* Supporting Files */,
 			);
 			path = "Pong-Tracker";
@@ -128,6 +141,16 @@
 				86E853DA1AF6D490008CB469 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		86F56FE71AF94837001F620A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				86F56FE91AF9774E001F620A /* Game.swift */,
+				86F56FE31AF94706001F620A /* Team.swift */,
+				86F56FE51AF94715001F620A /* Player.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,13 +253,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86F56FE41AF94706001F620A /* Team.swift in Sources */,
+				1048783C1B1BFFD900E4CB01 /* GameManager.swift in Sources */,
+				86F56FEA1AF9774E001F620A /* Game.swift in Sources */,
 				86E853C61AF6D490008CB469 /* Pong_Tracker.xcdatamodeld in Sources */,
-				86E853E61AF6E048008CB469 /* RootViewController.swift in Sources */,
+				86E853E61AF6E048008CB469 /* GameViewController.swift in Sources */,
 				86E853C31AF6D490008CB469 /* AppDelegate.swift in Sources */,
-				869BC9B51AF842810095A8B9 /* RootView.swift in Sources */,
+				10B0B1361B212E570030BFF7 /* ScoreStepper.swift in Sources */,
 				869BC9B71AF868A80095A8B9 /* TeamViewController.swift in Sources */,
 				869BC9BB1AF877320095A8B9 /* TeamViewHeaderView.swift in Sources */,
+				104F75DB1B13FB8100C5097E /* TeamSelectorViewController.swift in Sources */,
 				869BC9BD1AF87AE70095A8B9 /* ControlPadViewController.swift in Sources */,
+				86F56FE61AF94715001F620A /* Player.swift in Sources */,
 				869BC9B91AF868F70095A8B9 /* TeamView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

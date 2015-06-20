@@ -9,6 +9,22 @@
 import UIKit
 
 class TeamViewHeaderView: UIView {
+    
+    var timer: NSTimer?
+    
+    var isServing: Bool = false {
+        didSet {
+            self.updateHeader()
+        }
+    }
+    
+    var isMatchPoint: Bool = false {
+        didSet {
+            self.updateHeader()
+        }
+    }
+    
+    var showingServing: Bool = false;
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,9 +41,59 @@ class TeamViewHeaderView: UIView {
     }
     
     func commonInit() {
-        
         self.backgroundColor = UIColor.darkGrayColor().colorWithAlphaComponent(0.8)
-        
+    }
+    
+    func updateHeader() {
+        if isServing && isMatchPoint {
+            // serving
+            self.backgroundColor = self.servingColor()
+            self.showingServing = true
+            
+            // alternate banners
+            self.timer?.invalidate()
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
+        }
+        else if isServing {
+            self.backgroundColor = self.servingColor()
+            self.timer?.invalidate()
+            self.timer = nil
+        }
+        else if isMatchPoint {
+            self.backgroundColor = self.matchPointColor()
+            self.timer?.invalidate()
+            self.timer = nil
+        }
+        else {
+            self.backgroundColor = self.restingColor()
+        }
+    }
+    
+    func timerFired() {
+        if self.showingServing {
+            // show match point
+            self.backgroundColor = self.matchPointColor()
+            self.showingServing = false
+        }
+        else {
+            // show serving
+            self.backgroundColor = self.servingColor()
+            self.showingServing = true
+        }
+    }
+    
+    // MARK: Helpers
+    
+    func restingColor() -> UIColor {
+        return UIColor.darkGrayColor().colorWithAlphaComponent(0.8)
+    }
+    
+    func servingColor() -> UIColor {
+        return UIColor.greenColor().colorWithAlphaComponent(0.8)
+    }
+    
+    func matchPointColor() -> UIColor {
+        return UIColor.orangeColor().colorWithAlphaComponent(0.8)
     }
 
 }

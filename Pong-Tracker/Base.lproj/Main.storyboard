@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Game View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="RootViewController" customModule="Pong_Tracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="GameViewController" customModule="Pong_Tracker" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -20,7 +20,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fUN-Fu-MEg">
                                 <rect key="frame" x="0.0" y="0.0" width="299" height="378"/>
                                 <connections>
-                                    <segue destination="AiO-Rs-Xh9" kind="embed" id="LN9-IM-MNf"/>
+                                    <segue destination="AiO-Rs-Xh9" kind="embed" identifier="teamOne_Embed" id="LN9-IM-MNf"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hva-aO-VJh">
@@ -29,13 +29,13 @@
                                     <constraint firstAttribute="height" constant="220" id="Rbs-ye-UB8"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="bQp-bP-p9f" kind="embed" id="6C4-oh-qYb"/>
+                                    <segue destination="bQp-bP-p9f" kind="embed" identifier="controlPad_Embed" id="6C4-oh-qYb"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DCu-Ak-CBV">
                                 <rect key="frame" x="301" y="0.0" width="299" height="378"/>
                                 <connections>
-                                    <segue destination="ufm-Jk-qdS" kind="embed" id="xNo-fw-3XZ"/>
+                                    <segue destination="ufm-Jk-qdS" kind="embed" identifier="teamTwo_Embed" id="xNo-fw-3XZ"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -60,11 +60,6 @@
                             </mask>
                         </variation>
                     </view>
-                    <connections>
-                        <outlet property="controlPadViewController" destination="hva-aO-VJh" id="E8X-Bm-3jI"/>
-                        <outlet property="firstTeamViewController" destination="fUN-Fu-MEg" id="Xae-Zs-OH3"/>
-                        <outlet property="secondTeamViewController" destination="DCu-Ak-CBV" id="swG-gT-9yu"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -80,13 +75,77 @@
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="5S1-45-7ad" customClass="TeamView" customModule="Pong_Tracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="299" height="378"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PZv-wA-Lp9">
+                                <rect key="frame" x="104" y="174" width="90" height="30"/>
+                                <state key="normal" title="Select Player">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="tia-ho-aAd" kind="presentation" identifier="TeamOneSelector" modalPresentationStyle="formSheet" id="Db6-3C-oX6"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="0.14117647059999999" green="0.60392156860000001" blue="0.83529411760000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="PZv-wA-Lp9" secondAttribute="centerY" id="7Oj-GP-dNI"/>
+                            <constraint firstAttribute="centerX" secondItem="PZv-wA-Lp9" secondAttribute="centerX" id="Hto-vB-B9L"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="selectPlayerButton" destination="PZv-wA-Lp9" id="54R-IY-oXM"/>
+                        </connections>
                     </view>
                     <toolbarItems/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rNU-b2-VUQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1306.5" y="-262"/>
+            <point key="canvasLocation" x="1331.5" y="-268"/>
+        </scene>
+        <!--Team Selector View Controller-->
+        <scene sceneID="5a0-4m-Gm7">
+            <objects>
+                <viewController id="UFR-T8-WDC" customClass="TeamSelectorViewController" customModule="Pong_Tracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6gi-nT-g9J"/>
+                        <viewControllerLayoutGuide type="bottom" id="mee-k6-R4J"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OCH-VA-ndr">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a3P-Rb-CU9">
+                                <rect key="frame" x="275" y="228" width="50" height="30"/>
+                                <state key="normal" title="Team 2">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="teamTwoButtonTapped:" destination="UFR-T8-WDC" eventType="touchUpInside" id="eYf-zz-ahq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iJp-Jy-05Y">
+                                <rect key="frame" x="275" y="154" width="50" height="30"/>
+                                <state key="normal" title="Team 1">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="teamOneButtonTapped:" destination="UFR-T8-WDC" eventType="touchUpInside" id="YyN-S3-Xu3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="a3P-Rb-CU9" firstAttribute="top" secondItem="iJp-Jy-05Y" secondAttribute="bottom" constant="44" id="MIw-dc-2jy"/>
+                            <constraint firstAttribute="centerX" secondItem="iJp-Jy-05Y" secondAttribute="centerX" id="UQ3-e5-ekg"/>
+                            <constraint firstAttribute="centerX" secondItem="a3P-Rb-CU9" secondAttribute="centerX" id="dCI-aa-bfY"/>
+                            <constraint firstItem="iJp-Jy-05Y" firstAttribute="top" secondItem="6gi-nT-g9J" secondAttribute="bottom" constant="110" id="eF6-h5-lxu"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="ycK-Fw-Ryi"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IG1-7Z-o8X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3026" y="-31"/>
         </scene>
         <!--Team View Controller-->
         <scene sceneID="FGO-Nd-esX">
@@ -99,13 +158,32 @@
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ae2-dw-KCm" customClass="TeamView" customModule="Pong_Tracker" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="299" height="378"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hAA-W5-HPZ">
+                                <rect key="frame" x="104" y="174" width="90" height="30"/>
+                                <state key="normal" title="Select Player">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="tia-ho-aAd" kind="presentation" identifier="TeamTwoSelector" modalPresentationStyle="formSheet" id="d5k-Aj-3fg"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="0.14117647059999999" green="0.60392156860000001" blue="0.83529411760000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="hAA-W5-HPZ" secondAttribute="centerX" id="FsY-ch-sds"/>
+                            <constraint firstAttribute="centerY" secondItem="hAA-W5-HPZ" secondAttribute="centerY" id="Hx4-KM-7cK"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="selectPlayerButton" destination="hAA-W5-HPZ" id="JyE-BW-wqQ"/>
+                        </connections>
                     </view>
                     <toolbarItems/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V5P-86-2m0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1306.5" y="300"/>
+            <point key="canvasLocation" x="1331.5" y="235"/>
         </scene>
         <!--Control Pad View Controller-->
         <scene sceneID="pae-gA-0on">
@@ -125,6 +203,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="swapButtonTapped:" destination="bQp-bP-p9f" eventType="touchUpInside" id="YP6-kC-01D"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTH-aI-mjw">
                                 <rect key="frame" x="226" y="95" width="48" height="30"/>
@@ -141,20 +222,33 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="acC-c1-RSl">
-                                <rect key="frame" x="282" y="145" width="36" height="30"/>
-                                <state key="normal" title="Stats">
+                                <rect key="frame" x="263" y="145" width="73" height="30"/>
+                                <state key="normal" title="End Game">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="endGameButttonTapped:" destination="bQp-bP-p9f" eventType="touchUpInside" id="UJT-Em-aPA"/>
+                                </connections>
                             </button>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="duJ-YM-oRf" customClass="ScoreStepper" customModule="Pong_Tracker" customModuleProvider="target">
+                                <rect key="frame" x="490" y="45" width="94" height="29"/>
+                            </stepper>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="vWY-sX-PAo" customClass="ScoreStepper" customModule="Pong_Tracker" customModuleProvider="target">
+                                <rect key="frame" x="16" y="45" width="94" height="29"/>
+                            </stepper>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="duJ-YM-oRf" firstAttribute="trailing" secondItem="gtY-n6-4MT" secondAttribute="trailingMargin" id="0Eq-me-Ls5"/>
+                            <constraint firstItem="vWY-sX-PAo" firstAttribute="leading" secondItem="gtY-n6-4MT" secondAttribute="leadingMargin" id="1Xa-ej-9ZZ"/>
                             <constraint firstAttribute="centerY" secondItem="bTH-aI-mjw" secondAttribute="centerY" id="4Ex-JJ-kGZ"/>
+                            <constraint firstItem="duJ-YM-oRf" firstAttribute="centerY" secondItem="Ois-Tg-FLS" secondAttribute="centerY" constant="-0.5" id="74E-jx-gNK"/>
                             <constraint firstAttribute="centerY" secondItem="acC-c1-RSl" secondAttribute="centerY" constant="-50" id="8dV-fl-vfg"/>
                             <constraint firstAttribute="centerX" secondItem="Ois-Tg-FLS" secondAttribute="centerX" id="94W-To-2aS"/>
                             <constraint firstAttribute="centerX" secondItem="acC-c1-RSl" secondAttribute="centerX" id="Rjv-eg-9AM"/>
                             <constraint firstAttribute="centerX" secondItem="Se5-lP-Se2" secondAttribute="centerX" constant="-50" id="SQ2-Va-QNW"/>
+                            <constraint firstItem="vWY-sX-PAo" firstAttribute="centerY" secondItem="Ois-Tg-FLS" secondAttribute="centerY" constant="-0.5" id="XN0-ZR-ffF"/>
                             <constraint firstItem="Se5-lP-Se2" firstAttribute="trailing" secondItem="gtY-n6-4MT" secondAttribute="trailingMargin" id="dyt-on-IUm"/>
                             <constraint firstAttribute="centerY" secondItem="Ois-Tg-FLS" secondAttribute="centerY" constant="50" id="mIt-Oo-4Ro"/>
                             <constraint firstAttribute="centerY" secondItem="Se5-lP-Se2" secondAttribute="centerY" id="mJs-RX-s2d"/>
@@ -171,10 +265,35 @@
                         </variation>
                     </view>
                     <toolbarItems/>
+                    <connections>
+                        <outlet property="team0ScoreStepper" destination="vWY-sX-PAo" id="LBc-5E-muv"/>
+                        <outlet property="team1ScoreStepper" destination="duJ-YM-oRf" id="Rpd-fU-VKv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iIi-j2-DZc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1457" y="810"/>
+            <point key="canvasLocation" x="1482" y="684"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Btk-z4-2Uf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tia-ho-aAd" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Cf5-lI-dNk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="UFR-T8-WDC" kind="relationship" relationship="rootViewController" id="Szj-rN-T7D"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fEy-nw-7fd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2214" y="-31"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="d5k-Aj-3fg"/>
+    </inferredMetricsTieBreakers>
 </document>

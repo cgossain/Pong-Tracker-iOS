@@ -42,6 +42,10 @@ class ControlPadViewController: UIViewController {
         GameManager.sharedGameManager.swapTeams()
     }
 
+    @IBAction func restartButtonTapped(sender: AnyObject) {
+        // restart game
+        GameManager.sharedGameManager.restartGame()
+    }
     @IBAction func endGameButttonTapped(sender: AnyObject) {
         // end current game
         GameManager.sharedGameManager.endGame()

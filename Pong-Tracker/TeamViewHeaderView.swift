@@ -11,6 +11,7 @@ import UIKit
 class TeamViewHeaderView: UIView {
     
     var timer: NSTimer?
+    let titleLabel = UILabel()
     
     var isServing: Bool = false {
         didSet {
@@ -41,44 +42,100 @@ class TeamViewHeaderView: UIView {
     }
     
     func commonInit() {
+        // background color
         self.backgroundColor = UIColor.darkGrayColor().colorWithAlphaComponent(0.8)
+        
+        // label style
+        titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.addSubview(titleLabel)
+        
+        titleLabel.font = UIFont.systemFontOfSize(28.0)
+        titleLabel.textColor = UIColor.whiteColor()
+        
+        // center the label in x and y
+        self.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterX, multiplier: 1.0, constant: 0.0));
+        self.addConstraint(NSLayoutConstraint(item: titleLabel, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1.0, constant: 0.0));
+        
     }
     
     func updateHeader() {
         if isServing && isMatchPoint {
-            // serving
-            self.backgroundColor = self.servingColor()
+            // begin w/ serving
             self.showingServing = true
+            
+            // update state
+            self.setIndicatorState(.Serving)
             
             // alternate banners
             self.timer?.invalidate()
             self.timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "timerFired", userInfo: nil, repeats: true)
         }
         else if isServing {
-            self.backgroundColor = self.servingColor()
+            // update state
+            self.setIndicatorState(.Serving)
+            
             self.timer?.invalidate()
             self.timer = nil
         }
         else if isMatchPoint {
-            self.backgroundColor = self.matchPointColor()
+            // update state
+            self.setIndicatorState(.MatchPoint)
+            
             self.timer?.invalidate()
             self.timer = nil
         }
         else {
-            self.backgroundColor = self.restingColor()
+            // update state
+            self.setIndicatorState(.Resting)
         }
     }
     
     func timerFired() {
         if self.showingServing {
-            // show match point
-            self.backgroundColor = self.matchPointColor()
             self.showingServing = false
+            
+            // switch to match point
+            self.setIndicatorState(.MatchPoint)
         }
         else {
+            self.showingServing = true
+            
+            // switch to serving
+            self.setIndicatorState(.Serving)
+        }
+    }
+    
+    // MARK: Methods (Private)
+    
+    enum HeaderViewState {
+        case Resting
+        case Serving
+        case MatchPoint
+    }
+    
+    func setIndicatorState(state: HeaderViewState) -> Void {
+        switch state {
+            
+        case .Resting:
+            // show match point
+            self.backgroundColor = self.restingColor()
+            
+            // text
+            self.titleLabel.text = ""
+            
+        case .Serving:
             // show serving
             self.backgroundColor = self.servingColor()
-            self.showingServing = true
+            
+            // text
+            self.titleLabel.text = "Serving"
+            
+        case .MatchPoint:
+            // show match point
+            self.backgroundColor = self.matchPointColor()
+            
+            // text
+            self.titleLabel.text = "Match Point"
         }
     }
     
@@ -89,11 +146,11 @@ class TeamViewHeaderView: UIView {
     }
     
     func servingColor() -> UIColor {
-        return UIColor.greenColor().colorWithAlphaComponent(0.8)
+        return UIColor.greenColor().colorWithAlphaComponent(1.0)
     }
     
     func matchPointColor() -> UIColor {
-        return UIColor.orangeColor().colorWithAlphaComponent(0.8)
+        return UIColor.orangeColor().colorWithAlphaComponent(1.0)
     }
 
 }

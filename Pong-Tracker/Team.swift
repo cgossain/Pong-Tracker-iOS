@@ -22,6 +22,15 @@ class Team: NSObject {
         }
     }
     
+    var hasMatchPoint = false {
+        willSet {
+            self.willChangeValueForKey("hasMatchPoint")
+        }
+        didSet {
+            self.didChangeValueForKey("hasMatchPoint")
+        }
+    }
+    
     var currentScore = 0 {
         willSet {
             self.willChangeValueForKey("currentScore")

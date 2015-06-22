@@ -60,17 +60,6 @@ class TeamViewController: UIViewController, TeamSelectorViewControllerDelegate {
         // initial UI state
         teamView.setTeamInfoShown(false, animated: false)
         
-//        let Team0IsServingNotification = "com.pong-tracker.team0servingnotification"
-//        let Team1IsServingNotification = "com.pong-tracker.team1servingnotification"
-//        
-//        let Team0MatchPointNotification = "com.pong-tracker.team0matchpointnotification"
-//        let Team1MatchPointNotification = "com.pong-tracker.team1matchpointnotification"
-//        
-//        let MatchPointLostNotification = "com.pong-tracker.matchpointlostnotification"
-//        
-//        let Team0WonGameNotification = "com.pong-tracker.team0wongamenotification"
-//        let Team1WonGameNotification = "com.pong-tracker.team1wongamenotification"
-        
         // register for notifications
         NSNotificationCenter.defaultCenter().addObserver(
             self,
@@ -80,26 +69,14 @@ class TeamViewController: UIViewController, TeamSelectorViewControllerDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(
             self,
-            selector: "team0IsServingNotification",
-            name: Team0IsServingNotification,
+            selector: "gameDidEndNotification",
+            name: GameDidEndNotification,
             object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(
             self,
-            selector: "team1IsServingNotification",
-            name: Team1IsServingNotification,
-            object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "team0HasMatchPointNotification",
-            name: Team0MatchPointNotification,
-            object: nil)
-        
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "team1HasMatchPointNotification",
-            name: Team1MatchPointNotification,
+            selector: "gameDidRestartNotification",
+            name: GameDidRestartNotification,
             object: nil)
         
         // team specific notifications
@@ -117,13 +94,6 @@ class TeamViewController: UIViewController, TeamSelectorViewControllerDelegate {
                 name: Team1JoinedGameNotification,
                 object: nil)
         }
-        
-        // clear match point notification
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "noMatchPointNotification",
-            name: NoMatchPointNotification,
-            object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -139,55 +109,22 @@ class TeamViewController: UIViewController, TeamSelectorViewControllerDelegate {
     
     // MARK: Methods (Private)
     
-    func teamJoinedGameNotification() {
+    func gameSwappedTeamsNotification() {
         // update the view with team information
         self.reloadTeam()
     }
     
-    func team0IsServingNotification() {
-        if self.teamNumber == .Zero {
-            self.teamView.headerView.isServing = true
-        }
-        else if self.teamNumber == .One {
-            self.teamView.headerView.isServing = false
-        }
-    }
-    
-    func team1IsServingNotification() {
-        if self.teamNumber == .Zero {
-            self.teamView.headerView.isServing = false
-        }
-        else if self.teamNumber == .One {
-            self.teamView.headerView.isServing = true
-        }
-    }
-    
-    func team0HasMatchPointNotification() {
-        // update the view with team information
-        if self.teamNumber == .Zero {
-            self.teamView.headerView.isMatchPoint = true
-        }
-        else if self.teamNumber == .One {
-            self.teamView.headerView.isMatchPoint = false
-        }
-    }
-    
-    func team1HasMatchPointNotification() {
-        // update the view with team information
-        if self.teamNumber == .Zero {
-            self.teamView.headerView.isMatchPoint = false
-        }
-        else if self.teamNumber == .One {
-            self.teamView.headerView.isMatchPoint = true
-        }
-    }
-    
-    func noMatchPointNotification() {
-        // update the view with team information
+    func gameDidRestartNotification() {
+        self.teamView.headerView.isServing = false
         self.teamView.headerView.isMatchPoint = false
     }
     
-    func gameSwappedTeamsNotification() {
+    func gameDidEndNotification() {
+        // clear out the team view
+        self.teamView.team = nil
+    }
+    
+    func teamJoinedGameNotification() {
         // update the view with team information
         self.reloadTeam()
     }

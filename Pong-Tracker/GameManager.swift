@@ -28,14 +28,14 @@ class GameManager: NSObject {
     
     /// Ends the current game without saving
     func endGame() {
-        // pass message along to game
-        
+        // pass message along to the current game
+        currentGame?.endGame()
     }
     
     /// Restart the current game
     func restartGame() {
         // pass message along to game
-        
+        currentGame?.restartGame()
     }
     
     func swapTeams() {

@@ -8,21 +8,16 @@
 
 import UIKit
 
+// team joined
 let Team0JoinedGameNotification = "com.pong-tracker.team0JoinedGame.notification"
 let Team1JoinedGameNotification = "com.pong-tracker.team1JoinedGame.notification"
 
+// game lifecycle
 let GameDidSwapTeamsNotification = "com.pong-tracker.gamedidswapteamsnotification"
-let GameDidBeginNotification = "com.pong-tracker.gamedidbeginnotification"
+let GameDidRestartNotification = "com.pong-tracker.gamedidrestartnotification"
 let GameDidEndNotification = "com.pong-tracker.gamedidendnotification"
 
-let Team0IsServingNotification = "com.pong-tracker.team0servingnotification"
-let Team1IsServingNotification = "com.pong-tracker.team1servingnotification"
-
-let Team0MatchPointNotification = "com.pong-tracker.team0matchpointnotification"
-let Team1MatchPointNotification = "com.pong-tracker.team1matchpointnotification"
-
-let NoMatchPointNotification = "com.pong-tracker.nomatchpointnotification"
-
+// team won
 let Team0WonGameNotification = "com.pong-tracker.team0wongamenotification"
 let Team1WonGameNotification = "com.pong-tracker.team1wongamenotification"
 
@@ -53,10 +48,10 @@ class StandardGame: PingPongGame {
         return nil
     }
     
-    var startingTeam: Team?
-    
     var isGameReady: Bool { return teams.count == 2 } // the game is ready if both teams have joined
     var isGameInProgress: Bool { return startingTeam != nil }
+    
+    var startingTeam: Team?
     
     // MARK: Methods
     
@@ -99,12 +94,37 @@ class StandardGame: PingPongGame {
     func startGameWithTeam(team: Team) {
         // mark the starting team
         self.startingTeam = team
+    }
+    
+    func restartGame() {
+        // keep same teams; but clear starting team
+        self.startingTeam = nil
+        
+        // reset team properties
+        self.team0?.currentScore = 0
+        self.team1?.currentScore = 0
+
+        self.team0?.isServing = false
+	    self.team1?.isServing = false
+
+	    self.team0?.hasMatchPoint = false
+	    self.team1?.hasMatchPoint = false
         
         // post notification
-        NSNotificationCenter.defaultCenter().postNotificationName(GameDidBeginNotification, object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName(GameDidRestartNotification, object: nil)
+    }
+    
+    func endGame() {
+        // remove existing teams
+        teams.removeAll(keepCapacity: true)
+        
+        // post notification
+        NSNotificationCenter.defaultCenter().postNotificationName(GameDidEndNotification, object: nil)
     }
     
     func endAndSaveGame() {
+        // mark the starting team
+        self.startingTeam = nil
         
         // post notification
         NSNotificationCenter.defaultCenter().postNotificationName(GameDidEndNotification, object: nil)
@@ -141,20 +161,19 @@ class StandardGame: PingPongGame {
             if !somebodyWon {
             	// does somwone have the match point?
 	            if (team0Score >= (maxScore - 1)) && ((team0Score - team1Score) >= (leadRequiredToWin - 1)) {
-	                // team 0 has a game point
-	                // post notification
-	                NSNotificationCenter.defaultCenter().postNotificationName(Team0MatchPointNotification, object: nil)
-	                
+	                // team 0 has match point
+                    self.team0?.hasMatchPoint = true
+                    self.team1?.hasMatchPoint = false
 	            }
 	            else if (team1Score >= (maxScore - 1)) && ((team1Score - team0Score) >= (leadRequiredToWin - 1)) {
 	                // team 1 has a game point
-	                // post notification
-	                NSNotificationCenter.defaultCenter().postNotificationName(Team1MatchPointNotification, object: nil)
+	                self.team0?.hasMatchPoint = false
+                    self.team1?.hasMatchPoint = true
 	            }
                 else {
                     // nobody has a match point
-                    // post notification
-                    NSNotificationCenter.defaultCenter().postNotificationName(NoMatchPointNotification, object: nil)
+                    self.team0?.hasMatchPoint = false
+                    self.team1?.hasMatchPoint = false
                 }
 	            
 	            // who is serving
@@ -174,7 +193,6 @@ class StandardGame: PingPongGame {
 	                    // odd; second team is serving
 	                    firstTeamIsServing = false
 	                }
-	                
 	            }
 	            else {
 	                let multiple = totalScore/serviceSwitchInterval
@@ -193,18 +211,22 @@ class StandardGame: PingPongGame {
 	            // post notification
 	            if startingTeam == team0 {
 	            	if firstTeamIsServing {
-			            NSNotificationCenter.defaultCenter().postNotificationName(Team0IsServingNotification, object: nil)
+	            		self.team0?.isServing = true
+	            		self.team1?.isServing = false
 	            	}
 	            	else {
-	                	NSNotificationCenter.defaultCenter().postNotificationName(Team1IsServingNotification, object: nil)
+	            		self.team0?.isServing = false
+	            		self.team1?.isServing = true
 	            	}
 	            }
 	            else {
 	                if firstTeamIsServing {
-			            NSNotificationCenter.defaultCenter().postNotificationName(Team1IsServingNotification, object: nil)
+	                	self.team0?.isServing = false
+	            		self.team1?.isServing = true
 	            	}
 	            	else {
-	                	NSNotificationCenter.defaultCenter().postNotificationName(Team0IsServingNotification, object: nil)
+	            		self.team0?.isServing = true
+	            		self.team1?.isServing = false
 	            	}
 	            }
             }
@@ -216,9 +238,10 @@ class StandardGame: PingPongGame {
         	// start the game
         	self.startGameWithTeam(team0!)
         }
-        
-        // update the score
-        self.team0?.currentScore += points
+        else {
+            // update the score
+            self.team0?.currentScore += points
+        }
         
         // update game
         self.updateGameState()
@@ -229,9 +252,10 @@ class StandardGame: PingPongGame {
         	// start the game
         	self.startGameWithTeam(team1!)
         }
-
-        // update the score
-        self.team1?.currentScore += points
+        else {
+            // update the score
+            self.team1?.currentScore += points
+        }
         
         // update game
         self.updateGameState()

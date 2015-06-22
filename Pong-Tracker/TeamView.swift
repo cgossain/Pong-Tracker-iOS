@@ -8,7 +8,7 @@
 
 import UIKit
 
-let debugLayout = true
+let debugLayout = false
 
 class TeamView: UIView {
     
@@ -23,6 +23,7 @@ class TeamView: UIView {
             // remove current observers
             if let currentTeam = team {
                 currentTeam.removeObserver(self, forKeyPath: "isServing")
+                currentTeam.removeObserver(self, forKeyPath: "hasMatchPoint")
                 currentTeam.removeObserver(self, forKeyPath: "currentScore")
             }
         }
@@ -34,6 +35,7 @@ class TeamView: UIView {
                 
                 // observe some properties
                 aTeam.addObserver(self, forKeyPath: "isServing", options: NSKeyValueObservingOptions.Initial, context: nil)
+                aTeam.addObserver(self, forKeyPath: "hasMatchPoint", options: NSKeyValueObservingOptions.Initial, context: nil)
                 aTeam.addObserver(self, forKeyPath: "currentScore", options: NSKeyValueObservingOptions.Initial, context: nil)
                 
                 // show team info
@@ -43,6 +45,9 @@ class TeamView: UIView {
                 // hide team info
                 self.setTeamInfoShown(false);
             }
+            
+            // reset the header
+            self.headerView.setIndicatorState(.Resting)
         }
     }
     
@@ -225,6 +230,14 @@ class TeamView: UIView {
                     isServing = aTeam.isServing
                 }
                 self.headerView.isServing = isServing
+            }
+            else if keyPath == "hasMatchPoint" {
+                var isMatchPoint = false
+                
+                if let aTeam = self.team {
+                    isMatchPoint = aTeam.hasMatchPoint
+                }
+                self.headerView.isMatchPoint = isMatchPoint
             }
             else if keyPath == "currentScore" {
                 var score = 0

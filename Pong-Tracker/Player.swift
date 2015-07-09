@@ -1,22 +1,24 @@
 //
 //  Player.swift
-//  Pong-Tracker
+//  
 //
-//  Created by Christian R. Gossain on 2015-05-05.
-//  Copyright (c) 2015 Christian R. Gossain. All rights reserved.
+//  Created by Christian Gossain on 2015-07-05.
+//
 //
 
-import UIKit
+import Foundation
+import CoreData
 
-class Player {
-    var firstName: String
-    var lastName: String
+class Player: NSManagedObject {
+
+    @NSManaged var firstName: String?
+    @NSManaged var lastName: String?
+    @NSManaged var tagID: String?
     
-    /// The RFID tag
-    var playerID: String?
-    
-    init(firstName: String, lastName: String) {
-        self.firstName = firstName
-        self.lastName = lastName
+    class func createInManagedObjectContext(moc: NSManagedObjectContext) -> Player {
+        let newItem = NSEntityDescription.insertNewObjectForEntityForName("Player", inManagedObjectContext: moc) as! Pong_Tracker.Player
+        
+        return newItem
     }
+
 }

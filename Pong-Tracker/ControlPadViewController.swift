@@ -8,28 +8,76 @@
 
 import UIKit
 
-class ControlPadViewController: UIViewController {
+let ControlPadViewControllerRFIDTagScannedNotification = "com.controlpadviewcontroller.tagscannednotification"
 
+let ControlPadScannedTagKey = "ControlPadScannedTagKey"
+
+protocol ControlPadViewControllerDelegate {
+    func controlPadViewController(controller: ControlPadViewController, didSelectTeam team: Team)
+}
+
+class ControlPadViewController: UIViewController {
+    
     @IBOutlet weak var team0ScoreStepper: ScoreStepper! {
         didSet {
-            team0ScoreStepper.valueChangedAction = { (diff: Double) in
-                GameManager.sharedGameManager.currentGame?.team0Scored(Int(diff))
+            team0ScoreStepper.valueChangedAction = { diff in  GameManager.sharedGameManager.currentGame?.team0Scored(Int(diff)) }
+        }
+    }
+    @IBOutlet weak var team1ScoreStepper: ScoreStepper! {
+        didSet {
+            team1ScoreStepper.valueChangedAction = { diff in GameManager.sharedGameManager.currentGame?.team1Scored(Int(diff)) }
+        }
+    }
+    @IBOutlet weak var rfidReaderStatusIndicator: StatusIndicator!
+    @IBOutlet weak var tableStatusIndicator: StatusIndicator!
+    
+    var delegate: ControlPadViewControllerDelegate?
+    var rfidEventSource: EventSource?
+    var particleCoreEventSource: EventSource?
+    var managedObjectContext: NSManagedObjectContext { return GSCoreDataManager.sharedManager().managedObjectContext }
+    
+    // MARK: Initialization
+    
+    deinit {
+        // close the event source connections
+        rfidEventSource?.close()
+        particleCoreEventSource?.close()
+    }
+    
+    // MARK: Storyboard
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let identifier = segue.identifier where identifier == "WinningTeam" {
+            // set self as the delegate
+            if let navigationViewController = segue.destinationViewController as? UINavigationController {
+                if let winningViewController = navigationViewController.topViewController as? WinningTeamViewController {
+                    winningViewController.delegate = self
+                    winningViewController.winningTeam = sender as? Team
+                }
             }
         }
     }
     
-    @IBOutlet weak var team1ScoreStepper: ScoreStepper! {
-        didSet {
-            team1ScoreStepper.valueChangedAction = { (diff: Double) in
-                GameManager.sharedGameManager.currentGame?.team1Scored(Int(diff))
-            }
-        }
-    }
+    // MARK: View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.registerForRFIDEvents()
+        
+        // listen to win notifications
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "team0WonGameNotificationFired:",
+            name: Team0WonGameNotification,
+            object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "team1WonGameNotificationFired:",
+            name: Team1WonGameNotification,
+            object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,17 +85,119 @@ class ControlPadViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: Actions
+    
     @IBAction func swapButtonTapped(sender: AnyObject) {
         // swap teams
-        GameManager.sharedGameManager.swapTeams()
+        GameManager.sharedGameManager.currentGame?.swapTeams()
     }
-
+    
     @IBAction func restartButtonTapped(sender: AnyObject) {
         // restart game
-        GameManager.sharedGameManager.restartGame()
+        GameManager.sharedGameManager.currentGame?.restartGame()
     }
+
+    @IBAction func rematchButtonTapped(sender: AnyObject) {
+        // restart game
+        GameManager.sharedGameManager.currentGame?.rematchGame()
+    }
+    
     @IBAction func endGameButttonTapped(sender: AnyObject) {
         // end current game
-        GameManager.sharedGameManager.endGame()
+        GameManager.sharedGameManager.currentGame?.endGame()
+    }
+    
+    // MARK: Notifications
+    
+    func team0WonGameNotificationFired(note: NSNotification) {
+        let info = note.userInfo as? [String : AnyObject]
+        let team = info?["team"] as? Team
+        
+        self.presentWinningViewControllerWithTeam(team)
+    }
+    
+    func team1WonGameNotificationFired(note: NSNotification) {
+        let info = note.userInfo as? [String : AnyObject]
+        let team = info?["team"] as? Team
+        
+        self.presentWinningViewControllerWithTeam(team)
+    }
+    
+    // MARK: Methods (Private)
+    
+    func presentWinningViewControllerWithTeam(team: Team?) {
+        // create the controller
+        let winningViewController = self.storyboard?.instantiateViewControllerWithIdentifier("WinningTeamViewController") as? WinningTeamViewController
+        
+        // configure
+        winningViewController?.delegate = self
+        winningViewController?.winningTeam = team
+        
+        // present
+        self.presentViewController(winningViewController!, animated: true, completion: nil)
+    }
+    
+    func registerForRFIDEvents() {
+        let eventURL = "http://someeventsourceurl"
+        rfidEventSource = EventSource.eventSourceWithURL(NSURL(string: eventURL)) as? EventSource
+        
+        // listen for the status event
+        rfidEventSource?.addEventListener("STATUS", handler: {[unowned self] (event: Event!) -> Void in
+            println("The RFID reader is online!")
+            self.rfidReaderStatusIndicator.isOnline = true
+        })
+        
+        // listen for tag scans
+        rfidEventSource?.addEventListener("USER", handler: {[unowned self] (event: Event!) -> Void in
+            self.didScanTag(event.data.uppercaseString)
+        })
+        
+        // particle.io online event
+        let onlineEventURL = "https://api.particle.io/v1/devices/events/ping" + "?access_token=" + kParticleIOAccessToken
+        particleCoreEventSource = EventSource.eventSourceWithURL(NSURL(string: onlineEventURL)) as? EventSource
+        
+        particleCoreEventSource?.addEventListener("ping", handler: {[unowned self] (event: Event!) -> Void in
+            println("The Particle is online!")
+            self.tableStatusIndicator.isOnline = true
+        })
+        
+    }
+    
+    func didScanTag(tag: String) {
+        println("The scanned RFID code is: \(tag)")
+        
+        // add the player if not editing a player (we could be associating a tag with a player)
+        if !GameManager.sharedGameManager.playerEditInProgress {
+            // check if the tag is already associated with a player
+            let fetchRequest = NSFetchRequest(entityName: "Player")
+            fetchRequest.predicate = NSPredicate(format: "tagID == %@", tag)
+            
+            // execute the request
+            var error: NSError? = nil
+            let results = self.managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as! [Player]
+            
+            if !results.isEmpty {
+                // there is a match
+                let player = results.first!
+                
+                // wrap the player in a team object
+                let team = Team(name: "Team", playerOne: player, playerTwo: nil)
+                
+                // notify the delegate
+                self.delegate?.controlPadViewController(self, didSelectTeam: team)
+            }
+        }
+        
+        // post a notification with the scanned tag
+        NSNotificationCenter.defaultCenter().postNotificationName(
+            ControlPadViewControllerRFIDTagScannedNotification,
+            object: self,
+            userInfo: [ControlPadScannedTagKey : tag])
+    }
+}
+
+extension ControlPadViewController: WinningTeamViewControllerDelegate {
+    func winningTeamViewControllerDidFinish(controller: WinningTeamViewController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

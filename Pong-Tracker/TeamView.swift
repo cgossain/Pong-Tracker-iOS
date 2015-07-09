@@ -31,7 +31,7 @@ class TeamView: UIView {
             // update the view accordingly
             if let aTeam = team {
                 // load in the data
-                nameLabel.text = aTeam.playerOne.firstName + " " + aTeam.playerOne.lastName
+                nameLabel.text = (aTeam.playerOne.firstName ?? "") + " " + (aTeam.playerOne.lastName ?? "")
                 
                 // observe some properties
                 aTeam.addObserver(self, forKeyPath: "isServing", options: NSKeyValueObservingOptions.Initial, context: nil)
@@ -47,7 +47,9 @@ class TeamView: UIView {
             }
             
             // reset the header
-            self.headerView.setIndicatorState(.Resting)
+            self.headerView.isServing = false
+            self.headerView.isMatchPoint = false
+            self.scoreLabel.text = "0"
         }
     }
     
@@ -108,7 +110,7 @@ class TeamView: UIView {
         // configure the score label
         self.scoreLabel.font = UIFont.systemFontOfSize(100.0)
         self.scoreLabel.textColor = UIColor.whiteColor()
-        self.scoreLabel.text = "99"
+        self.scoreLabel.text = "0"
         
         // configure the name label
         self.nameLabel.font = UIFont.systemFontOfSize(24.0)

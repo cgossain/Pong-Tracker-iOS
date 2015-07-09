@@ -33,17 +33,17 @@ class TeamSelectorViewController: UIViewController {
 
     @IBAction func teamOneButtonTapped(sender: AnyObject) {
         
-        let player = Player(firstName: "John", lastName: "Smith")
-        let team = Team(name: "Team One", playerOne: player, playerTwo: nil)
-        
-        delegate?.teamSelector(self, didSelectTeam: team)
+//        let player = Player(firstName: "John", lastName: "Smith")
+//        let team = Team(name: "Team One", playerOne: player, playerTwo: nil)
+//        
+//        delegate?.teamSelector(self, didSelectTeam: team)
     }
     
     @IBAction func teamTwoButtonTapped(sender: AnyObject) {
         
-        let player = Player(firstName: "Jane", lastName: "Smith")
-        let team = Team(name: "Team Two", playerOne: player, playerTwo: nil)
-        
-        delegate?.teamSelector(self, didSelectTeam: team)
+//        let player = Player(firstName: "Jane", lastName: "Smith")
+//        let team = Team(name: "Team Two", playerOne: player, playerTwo: nil)
+//        
+//        delegate?.teamSelector(self, didSelectTeam: team)
     }
 }

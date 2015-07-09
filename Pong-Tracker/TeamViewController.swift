@@ -19,7 +19,7 @@ protocol TeamViewControllerDelegate {
     func teamNumberForTeamViewController(controller: TeamViewController) -> TeamNumber
 }
 
-class TeamViewController: UIViewController, TeamSelectorViewControllerDelegate {
+class TeamViewController: UIViewController {
     
     var delegate: TeamViewControllerDelegate?
     var teamView: TeamView {
@@ -31,23 +31,27 @@ class TeamViewController: UIViewController, TeamSelectorViewControllerDelegate {
         return delegate?.teamNumberForTeamViewController(self) ?? .Unspecified
     }
     
-    // MARK: Initialization
+    // MARK: - Initialization
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    // MARK: View Lifecycle
+    // MARK: - View Lifecycle
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         switch (segue.identifier, segue.destinationViewController) {
-        case let (identifier, destinationVC as UINavigationController) where identifier == "TeamOneSelector":
-            if let teamSelectorVC = destinationVC.topViewController as? TeamSelectorViewController {
+        case let (identifier, vc as UINavigationController) where identifier == "TeamOneSelector":
+            if let teamSelectorVC = vc.topViewController as? PlayersListViewController {
                 teamSelectorVC.delegate = self
+                
+                GameManager.sharedGameManager.playerEditInProgress = true
             }
-        case let (identifier, destinationVC as UINavigationController) where identifier == "TeamTwoSelector":
-            if let teamSelectorVC = destinationVC.topViewController as? TeamSelectorViewController {
+        case let (identifier, vc as UINavigationController) where identifier == "TeamTwoSelector":
+            if let teamSelectorVC = vc.topViewController as? PlayersListViewController {
                 teamSelectorVC.delegate = self
+                
+                GameManager.sharedGameManager.playerEditInProgress = true
             }
         default:
             break
@@ -100,14 +104,14 @@ class TeamViewController: UIViewController, TeamSelectorViewControllerDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    // MARK: Methods (Public)
+    // MARK: - Methods (Public)
     
     func clear() {
         // hide the team 
         teamView.setTeamInfoShown(false, animated: true);
     }
     
-    // MARK: Methods (Private)
+    // MARK: - Methods (Private)
     
     func gameSwappedTeamsNotification() {
         // update the view with team information
@@ -137,15 +141,27 @@ class TeamViewController: UIViewController, TeamSelectorViewControllerDelegate {
             self.teamView.team = GameManager.sharedGameManager.currentGame?.team1
         }
     }
+}
+
+extension TeamViewController: PlayersListViewControllerDelegate {
     
-    // MARK: TeamSelectorViewControllerDelegate
+    // MARK: - PlayersListViewControllerDelegate
     
-    func teamSelector(teamSelector: TeamSelectorViewController, didSelectTeam team: Team) {
-        // dismiss the team selector view controller
-        self.dismissViewControllerAnimated(true) { () -> Void in NSLog("DISMISSED TEAM SELECTOR VIEW CONTROLLER") }
+    func playersListViewControllerDoneButtonTapped(controller: PlayersListViewController) {
+        GameManager.sharedGameManager.playerEditInProgress = false
+        
+        // dismiss the view controller
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func playersListViewController(controller: PlayersListViewController, didSelectTeam team: Team) {
+        GameManager.sharedGameManager.playerEditInProgress = false
+        
+        // dismiss the view controller
+        self.dismissViewControllerAnimated(true, completion: nil)
         
         // notify the delegate
         delegate?.teamViewController(self, didSelectTeam: team)
     }
-
+    
 }

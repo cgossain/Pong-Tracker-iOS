@@ -22,9 +22,7 @@ class TagScanViewController: UIViewController {
     
     var delegate: TagScanViewControllerDelegate?
     var scannedTag: String?
-    var managedObjectContext: NSManagedObjectContext {
-        return GSCoreDataManager.sharedManager().managedObjectContext
-    }
+    var managedObjectContext: NSManagedObjectContext { return GSCoreDataManager.sharedManager().managedObjectContext }
     
     @IBOutlet weak var informationLabel: UILabel!
     
@@ -39,7 +37,8 @@ class TagScanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // popover size
-        self.preferredContentSize = CGSize(width: 400.0, height: 120.0)
+        self.preferredContentSize = CGSize(width: 380.0, height: 120.0)
+        self.view.backgroundColor = kBlueColor
         
         // Do any additional setup after loading the view.
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Clear", style: .Plain, target: self, action: "clearButtonTapped:")

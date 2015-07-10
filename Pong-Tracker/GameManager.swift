@@ -65,38 +65,44 @@ class GameManager {
                 println("Player \(player) scored")
                 
                 if player == "1" {
-                    // team 0 pressed button
-                    let t = NSDate.timeIntervalSinceReferenceDate()
+                    // add a point
+                    self.currentGame?.team0Scored(1)
                     
-                    // if the new score is within the undo interval seconds, subtract a point
-                    if t - self.lastTeam0ScoreTime <= kUndoInterval {
-                        // subtract a point
-                        self.currentGame?.team0Scored(1)
-                    }
-                    else {
-                        // add a point
-                        self.currentGame?.team0Scored(1)
-                    }
-                    
-                    // update the last score time
-                    self.lastTeam0ScoreTime = t
+//                    // team 0 pressed button
+//                    let t = NSDate.timeIntervalSinceReferenceDate()
+//                    
+//                    // if the new score is within the undo interval seconds, subtract a point
+//                    if t - self.lastTeam0ScoreTime <= kUndoInterval {
+//                        // subtract a point
+//                        self.currentGame?.team0Scored(1)
+//                    }
+//                    else {
+//                        // add a point
+//                        self.currentGame?.team0Scored(1)
+//                    }
+//                    
+//                    // update the last score time
+//                    self.lastTeam0ScoreTime = t
                 }
                 else if player == "2" {
-                    // team 1 pressed button
-                    let t = NSDate.timeIntervalSinceReferenceDate()
+                    // add a point
+                    self.currentGame?.team1Scored(1)
                     
-                    // if the new score is within the undo interval seconds, subtract a point
-                    if t - self.lastTeam1ScoreTime <= kUndoInterval {
-                        // subtract a point
-                        self.currentGame?.team1Scored(1)
-                    }
-                    else {
-                        // add a point
-                        self.currentGame?.team1Scored(1)
-                    }
-                    
-                    // update the last score time
-                    self.lastTeam1ScoreTime = t
+//                    // team 1 pressed button
+//                    let t = NSDate.timeIntervalSinceReferenceDate()
+//                    
+//                    // if the new score is within the undo interval seconds, subtract a point
+//                    if t - self.lastTeam1ScoreTime <= kUndoInterval {
+//                        // subtract a point
+//                        self.currentGame?.team1Scored(1)
+//                    }
+//                    else {
+//                        // add a point
+//                        self.currentGame?.team1Scored(1)
+//                    }
+//                    
+//                    // update the last score time
+//                    self.lastTeam1ScoreTime = t
                 }
                 
             }

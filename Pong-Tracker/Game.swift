@@ -15,6 +15,7 @@ let Team1JoinedGameNotification = "com.pong-tracker.team1JoinedGame.notification
 // game lifecycle
 let GameDidSwapTeamsNotification = "com.pong-tracker.gamedidswapteamsnotification"
 let GameDidRestartNotification = "com.pong-tracker.gamedidrestartnotification"
+let GameDidBecomeReadyNotification = "com.pong-tracker.gamedidbecomereadynotification"
 let GameDidEndNotification = "com.pong-tracker.gamedidendnotification"
 
 // team won
@@ -50,7 +51,7 @@ class StandardGame: PingPongGame {
     
     var startingTeam: Team?
     
-    // MARK: Methods
+    // MARK: - Methods
     
     func addTeam0(team: Team) {
         // set the team
@@ -62,6 +63,9 @@ class StandardGame: PingPongGame {
         // notify delegate if game is ready
         if self.isGameReady {
             self.delegate?.gameIsReady()
+            
+            // post notification
+            NSNotificationCenter.defaultCenter().postNotificationName(GameDidBecomeReadyNotification, object: nil)
         }
     }
     
@@ -75,6 +79,9 @@ class StandardGame: PingPongGame {
         // notify delegate if game is ready
         if self.isGameReady {
             self.delegate?.gameIsReady()
+            
+            // post notification
+            NSNotificationCenter.defaultCenter().postNotificationName(GameDidBecomeReadyNotification, object: nil)
         }
     }
     
@@ -97,6 +104,8 @@ class StandardGame: PingPongGame {
     func startGameWithTeam(team: Team) {
         // mark the starting team
         self.startingTeam = team
+        
+        
     }
     
     func restartGame() {
@@ -151,7 +160,7 @@ class StandardGame: PingPongGame {
         self.delegate?.gameDidEnd()
     }
     
-    /// MARK: Methods (Scoring)
+    /// MARK: - Methods (Scoring)
     
     func updateGameState() {
         if self.isGameInProgress {
@@ -180,10 +189,18 @@ class StandardGame: PingPongGame {
             
             // if nobody won, is it match point for someone and who's serve is it
             if somebodyWon {
-                // end the game
+                // switch the starting team
+                let newStartingTeam = (self.startingTeam == self.team0) ? self.team1 : self.team0
+                
                 // keep the same player but restart and swap the teams
                 self.restartGame()
                 self.swapTeams()
+                
+                // start the game with the new starting team
+                self.startGameWithTeam(newStartingTeam!)
+                
+                // update game
+                self.updateGameState()
             }
             else {
                 // does somwone have the match point?
@@ -269,7 +286,9 @@ class StandardGame: PingPongGame {
             }
             else {
                 // update the score
-                self.team0?.currentScore += points
+                if let newScore = self.team0?.currentScore where (newScore + points) >= 0 {
+                    self.team0?.currentScore = newScore + points
+                }
             }
             
             // update game
@@ -286,7 +305,9 @@ class StandardGame: PingPongGame {
             }
             else {
                 // update the score
-                self.team1?.currentScore += points
+                if let newScore = self.team1?.currentScore where (newScore + points) >= 0 {
+                    self.team1?.currentScore = newScore + points
+                }
             }
             
             // update game

@@ -469,14 +469,6 @@ ABCDE</string>
                                     <action selector="endGameButttonTapped:" destination="bQp-bP-p9f" eventType="touchUpInside" id="UJT-Em-aPA"/>
                                 </connections>
                             </button>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="duJ-YM-oRf" customClass="ScoreStepper" customModule="Pong_Tracker" customModuleProvider="target">
-                                <rect key="frame" x="490" y="45" width="94" height="29"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </stepper>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="vWY-sX-PAo" customClass="ScoreStepper" customModule="Pong_Tracker" customModuleProvider="target">
-                                <rect key="frame" x="16" y="45" width="94" height="29"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </stepper>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sWh-WZ-Yqj" customClass="StatusIndicator" customModule="Pong_Tracker" customModuleProvider="target">
                                 <rect key="frame" x="16" y="180" width="20" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -508,10 +500,7 @@ ABCDE</string>
                         </subviews>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="duJ-YM-oRf" firstAttribute="trailing" secondItem="gtY-n6-4MT" secondAttribute="trailingMargin" id="0Eq-me-Ls5"/>
-                            <constraint firstItem="vWY-sX-PAo" firstAttribute="leading" secondItem="gtY-n6-4MT" secondAttribute="leadingMargin" id="1Xa-ej-9ZZ"/>
                             <constraint firstAttribute="centerY" secondItem="bTH-aI-mjw" secondAttribute="centerY" id="4Ex-JJ-kGZ"/>
-                            <constraint firstItem="duJ-YM-oRf" firstAttribute="centerY" secondItem="Ois-Tg-FLS" secondAttribute="centerY" constant="-0.5" id="74E-jx-gNK"/>
                             <constraint firstItem="gv8-ad-sOl" firstAttribute="centerY" secondItem="sWh-WZ-Yqj" secondAttribute="centerY" id="7JX-ko-Au3"/>
                             <constraint firstItem="LQe-hS-f9c" firstAttribute="leading" secondItem="gv8-ad-sOl" secondAttribute="trailing" constant="8" id="7Qx-J3-CLF"/>
                             <constraint firstAttribute="centerY" secondItem="acC-c1-RSl" secondAttribute="centerY" constant="-50" id="8dV-fl-vfg"/>
@@ -524,7 +513,6 @@ ABCDE</string>
                             <constraint firstItem="gv8-ad-sOl" firstAttribute="centerY" secondItem="LQe-hS-f9c" secondAttribute="centerY" id="Qt4-MZ-f6I"/>
                             <constraint firstAttribute="centerX" secondItem="acC-c1-RSl" secondAttribute="centerX" id="Rjv-eg-9AM"/>
                             <constraint firstAttribute="centerX" secondItem="Se5-lP-Se2" secondAttribute="centerX" constant="-50" id="SQ2-Va-QNW"/>
-                            <constraint firstItem="vWY-sX-PAo" firstAttribute="centerY" secondItem="Ois-Tg-FLS" secondAttribute="centerY" constant="-0.5" id="XN0-ZR-ffF"/>
                             <constraint firstItem="Se5-lP-Se2" firstAttribute="trailing" secondItem="gtY-n6-4MT" secondAttribute="trailingMargin" id="dyt-on-IUm"/>
                             <constraint firstItem="sWh-WZ-Yqj" firstAttribute="top" secondItem="gv8-ad-sOl" secondAttribute="bottom" constant="8" id="fhs-nG-Cd6"/>
                             <constraint firstAttribute="centerY" secondItem="Ois-Tg-FLS" secondAttribute="centerY" constant="50" id="mIt-Oo-4Ro"/>
@@ -548,8 +536,6 @@ ABCDE</string>
                     <connections>
                         <outlet property="rfidReaderStatusIndicator" destination="gv8-ad-sOl" id="vuJ-u1-45V"/>
                         <outlet property="tableStatusIndicator" destination="sWh-WZ-Yqj" id="Krs-vW-Fc2"/>
-                        <outlet property="team0ScoreStepper" destination="vWY-sX-PAo" id="LBc-5E-muv"/>
-                        <outlet property="team1ScoreStepper" destination="duJ-YM-oRf" id="Rpd-fU-VKv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iIi-j2-DZc" userLabel="First Responder" sceneMemberID="firstResponder"/>

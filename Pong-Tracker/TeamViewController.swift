@@ -98,10 +98,34 @@ class TeamViewController: UIViewController {
                 name: Team1JoinedGameNotification,
                 object: nil)
         }
+        
+        // button target actions
+        self.teamView.decrementButton.addTarget(self, action: "decrementButtonTapped:", forControlEvents: .TouchUpInside)
+        self.teamView.incrementButton.addTarget(self, action: "incrementButtonTapped:", forControlEvents: .TouchUpInside)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    // MARK: - Actions
+    
+    func decrementButtonTapped(sender: UIButton) {
+        if self.teamNumber == .Zero {
+            GameManager.sharedGameManager.currentGame?.team0Scored(-1)
+        }
+        else if self.teamNumber == .One {
+            GameManager.sharedGameManager.currentGame?.team1Scored(-1)
+        }
+    }
+    
+    func incrementButtonTapped(sender: UIButton) {
+        if self.teamNumber == .Zero {
+            GameManager.sharedGameManager.currentGame?.team0Scored(1)
+        }
+        else if self.teamNumber == .One {
+            GameManager.sharedGameManager.currentGame?.team1Scored(1)
+        }
     }
     
     // MARK: - Methods (Public)

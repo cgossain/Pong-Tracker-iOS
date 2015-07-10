@@ -10,7 +10,7 @@ import UIKit
 
 class AvatarTableViewCell: UITableViewCell {
     
-    let avatarView = AvatarView()
+    let avatarView = AvatarView(size: .Small)
     let titleLabel = UILabel()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

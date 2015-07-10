@@ -20,7 +20,7 @@ class PopPresentationAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     // MARK: UIViewControllerAnimatedTransitioning
     
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
-        return self.presenting ? 0.4 : 0.4
+        return self.presenting ? 0.6 : 0.6
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -53,8 +53,8 @@ class PopPresentationAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             // animate for 100% scale
             UIView.animateWithDuration(self.transitionDuration(context),
                 delay: 0.0,
-                usingSpringWithDamping: 0.5,
-                initialSpringVelocity: 0.5,
+                usingSpringWithDamping: 0.6,
+                initialSpringVelocity: 0.2,
                 options: nil,
                 animations: { () -> Void in
                     // animate to 100% scale

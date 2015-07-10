@@ -44,6 +44,8 @@ class WinningTeamViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.view.backgroundColor = kBlueColor
+        
         // set the title label
         if let team = self.winningTeam {
             self.titleLabel.text = team.playerOne.firstName! + " " + team.playerOne.lastName! + " Won!"

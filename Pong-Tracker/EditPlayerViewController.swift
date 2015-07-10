@@ -53,10 +53,12 @@ class EditPlayerViewController: UITableViewController {
         if self.player == nil {
             // create a new player
             self.isCreatingNewPlayer = true
+            self.title = "Create New Player"
         }
         else {
             // editing an existing player
             self.isCreatingNewPlayer = false
+            self.title = "Edit Player"
         }
     }
     
@@ -98,6 +100,47 @@ class EditPlayerViewController: UITableViewController {
         
         // notify the delegate
         self.delegate?.editPlayerViewControllerDidFinish(self)
+    }
+    
+    func takePhoto() {
+        let imageViewController = UIImagePickerController()
+        imageViewController.delegate = self
+        imageViewController.sourceType = .Camera
+        imageViewController.modalPresentationStyle = .CurrentContext
+        imageViewController.allowsEditing = true
+        imageViewController.cameraDevice = .Front
+        
+        self.presentViewController(imageViewController, animated: true, completion: nil)
+    }
+    
+    func choosePhoto() {
+        let imageViewController = UIImagePickerController()
+        imageViewController.delegate = self
+        imageViewController.sourceType = .PhotoLibrary
+        imageViewController.modalPresentationStyle = .CurrentContext
+        imageViewController.allowsEditing = true
+        
+        self.presentViewController(imageViewController, animated: true, completion: nil)
+    }
+    
+    func removePhoto() {
+        self.player?.picture = nil
+    }
+    
+    func croppedImage(image: UIImage) -> UIImage {
+        let width = image.size.width
+        let height = image.size.height
+        
+        if width != height {
+            let newDimension = min(width, height)
+            let widthOffset = (width - newDimension) / 2.0
+            let heightOffset = (height - newDimension) / 2.0
+            
+            UIGraphicsBeginImageContextWithOptions(CGSize(width: newDimension, height: newDimension), false, 0.0)
+            image.drawAtPoint(CGPoint(x: -widthOffset, y: -heightOffset), blendMode: kCGBlendModeCopy, alpha: 1.0)
+            UIGraphicsEndImageContext()
+        }
+        return image
     }
     
     // MARK: - Selectors
@@ -148,7 +191,7 @@ extension EditPlayerViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.section == 0 {
             let avatarCell = cell as! AvatarTableViewCell
             
-            avatarCell.titleLabel.text = "Add Profile Picture"
+            avatarCell.titleLabel.text = "Set Profile Picture"
             avatarCell.avatarView.player = self.player
         }
         else if indexPath.section == 1 {
@@ -204,7 +247,39 @@ extension EditPlayerViewController: UITableViewDataSource, UITableViewDelegate {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        if indexPath.section == 2 && indexPath.row == 0 {
+        
+        if indexPath.section == 0 && indexPath.row == 0 {
+            let cell = self.tableView.cellForRowAtIndexPath(indexPath)!
+            
+            // add/update photo
+            let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            alertController.popoverPresentationController?.sourceRect = cell.frame
+            alertController.popoverPresentationController?.sourceView = tableView
+            
+            if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+                alertController.addAction(UIAlertAction(title: "Take Photo", style: .Default, handler: { action in
+                    self.takePhoto()
+                }))
+            }
+            
+            if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
+                alertController.addAction(UIAlertAction(title: "Choose Photo", style: .Default, handler: { action in
+                    self.choosePhoto()
+                }))
+            }
+            
+            if self.player?.picture != nil {
+                alertController.addAction(UIAlertAction(title: "Remove Photo", style: .Destructive, handler: { action in
+                    self.removePhoto()
+                }))
+            }
+            
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler:nil))
+            
+            // show the alert controller
+            self.presentViewController(alertController, animated: true, completion: nil)
+        }
+        else if indexPath.section == 2 && indexPath.row == 0 {
             // scan tag cell
             // dismiss the keyboard if shown
             self.view.endEditing(true)
@@ -243,6 +318,25 @@ extension EditPlayerViewController: TagScanViewControllerDelegate {
     }
     
     func tagScanViewControllerDidCancel(controller: TagScanViewController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+}
+
+extension EditPlayerViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    // MARK: - UIImagePickerControllerDelegate
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+        // save the image
+        self.player?.picture = UIImageJPEGRepresentation(self.croppedImage(image), 1.0)
+        
+        // dismiss the image picker
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        // dismiss the image picker
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

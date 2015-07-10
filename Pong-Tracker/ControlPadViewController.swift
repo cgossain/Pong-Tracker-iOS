@@ -18,16 +18,6 @@ protocol ControlPadViewControllerDelegate {
 
 class ControlPadViewController: UIViewController {
     
-    @IBOutlet weak var team0ScoreStepper: ScoreStepper! {
-        didSet {
-            team0ScoreStepper.valueChangedAction = { diff in  GameManager.sharedGameManager.currentGame?.team0Scored(Int(diff)) }
-        }
-    }
-    @IBOutlet weak var team1ScoreStepper: ScoreStepper! {
-        didSet {
-            team1ScoreStepper.valueChangedAction = { diff in GameManager.sharedGameManager.currentGame?.team1Scored(Int(diff)) }
-        }
-    }
     @IBOutlet weak var rfidReaderStatusIndicator: StatusIndicator!
     @IBOutlet weak var tableStatusIndicator: StatusIndicator!
     
@@ -42,6 +32,8 @@ class ControlPadViewController: UIViewController {
         // close the event source connections
         rfidEventSource?.close()
         particleCoreEventSource?.close()
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     // MARK: Storyboard

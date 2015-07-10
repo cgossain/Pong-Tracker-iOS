@@ -11,11 +11,38 @@ import UIKit
 class ScoreStepper: UIStepper {
     var previousValue = 0.0
     var valueChangedAction: ((change: Double) -> Void)?
+    var team: Team? {
+        willSet {
+            if let t = team {
+                // disable
+                //self.enabled = false
+                
+                // remove observers
+                t.removeObserver(self, forKeyPath: "currentScore");
+            }
+        }
+        didSet {
+            if let t = team {
+                // enable
+                //self.enabled = true
+                
+                // remove observers
+                t.addObserver(self, forKeyPath: "currentScore", options: nil, context: nil)
+            }
+            else {
+                //self.value = 0.0 // reset the value
+            }
+        }
+    }
+    
+    deinit {
+        self.team = nil
+    }
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        self.autorepeat = true
+        self.autorepeat = false
         
         // add self as target
         self.addTarget(self, action: "stepperValueChanged:", forControlEvents: UIControlEvents.ValueChanged)
@@ -30,5 +57,18 @@ class ScoreStepper: UIStepper {
             action(change: diff)
         }
         
+    }
+    
+    // MARK: - KVO
+    
+    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+        if keyPath == "currentScore" {
+            let currentScore = self.team?.currentScore
+            
+            self.value = Double(currentScore ?? 0)
+        }
+        else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
     }
 }

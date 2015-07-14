@@ -11,6 +11,7 @@ import UIKit
 enum AvatarViewSize {
     case Small
     case Large
+    case PreDefined
 }
 
 class AvatarView: UIControl {
@@ -61,7 +62,7 @@ class AvatarView: UIControl {
     }
 
     required init(coder aDecoder: NSCoder) {
-        avatarViewSize = AvatarViewSize.Small // default to small
+        avatarViewSize = AvatarViewSize.PreDefined
         super.init(coder: aDecoder)
         self.commonInit()
     }
@@ -110,7 +111,12 @@ class AvatarView: UIControl {
     }
     
     override func intrinsicContentSize() -> CGSize {
-        return CGSize(width: self.desiredDiameter(), height: self.desiredDiameter())
+        if avatarViewSize != .PreDefined {
+            return CGSize(width: self.desiredDiameter(), height: self.desiredDiameter())
+        }
+        else {
+            return CGSize(width: UIViewNoIntrinsicMetric, height: UIViewNoIntrinsicMetric)
+        }
     }
     
     // MARK: - Methods (Private)

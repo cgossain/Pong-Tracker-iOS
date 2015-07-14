@@ -353,17 +353,39 @@ ABCDE</string>
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Smith Won!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSD-4R-Jyz">
-                                <rect key="frame" x="137" y="274" width="328" height="53"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="44"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jp4-8g-L8L">
+                                <rect key="frame" x="16" y="134" width="568" height="332.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="John Smith Won!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSD-4R-Jyz">
+                                        <rect key="frame" x="121" y="0.0" width="327.5" height="52.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="44"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qZb-Xn-uFW" customClass="AvatarView" customModule="Pong_Tracker" customModuleProvider="target">
+                                        <rect key="frame" x="184" y="132.5" width="200" height="200"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="JIM-vX-ALd"/>
+                                            <constraint firstAttribute="height" constant="200" id="TwY-eh-g0D"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="vSD-4R-Jyz" secondAttribute="centerX" id="79R-cP-irf"/>
+                                    <constraint firstItem="qZb-Xn-uFW" firstAttribute="top" secondItem="vSD-4R-Jyz" secondAttribute="bottom" constant="80" id="YWx-0L-0Sd"/>
+                                    <constraint firstAttribute="centerX" secondItem="qZb-Xn-uFW" secondAttribute="centerX" id="lo8-gx-mMw"/>
+                                    <constraint firstAttribute="bottom" secondItem="qZb-Xn-uFW" secondAttribute="bottom" id="mtE-WI-eVK"/>
+                                    <constraint firstItem="vSD-4R-Jyz" firstAttribute="top" secondItem="jp4-8g-L8L" secondAttribute="top" id="u3p-cB-awR"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.14117647059999999" green="0.60392156860000001" blue="0.83529411760000005" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="vSD-4R-Jyz" secondAttribute="centerY" id="TQo-MM-pZU"/>
-                            <constraint firstAttribute="centerX" secondItem="vSD-4R-Jyz" secondAttribute="centerX" id="mVg-K4-4rE"/>
+                            <constraint firstAttribute="centerY" secondItem="jp4-8g-L8L" secondAttribute="centerY" id="4oX-EQ-Ti5"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jp4-8g-L8L" secondAttribute="trailing" id="L6o-9S-UTj"/>
+                            <constraint firstItem="jp4-8g-L8L" firstAttribute="leading" secondItem="XN4-h3-67R" secondAttribute="leadingMargin" id="eik-Mt-Nzr"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Mbr-xD-aZN">
@@ -374,6 +396,7 @@ ABCDE</string>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="avatarView" destination="qZb-Xn-uFW" id="nfo-n7-imF"/>
                         <outlet property="titleLabel" destination="vSD-4R-Jyz" id="5Fp-yv-o6l"/>
                     </connections>
                 </viewController>

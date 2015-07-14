@@ -8,6 +8,10 @@
 
 import UIKit
 
+let kParticleIOAccessToken = "YOUR_ACCESS_TOKEN"
+let kParticleIODeviceID = "YOUR_DEVICE_ID"
+let kScoreLimitInterval = 1.0
+
 let ControlPadViewControllerRFIDTagScannedNotification = "com.controlpadviewcontroller.tagscannednotification"
 
 let ControlPadScannedTagKey = "ControlPadScannedTagKey"
@@ -25,6 +29,9 @@ class ControlPadViewController: UIViewController {
     var rfidEventSource: EventSource?
     var particleCoreEventSource: EventSource?
     var managedObjectContext: NSManagedObjectContext { return GSCoreDataManager.sharedManager().managedObjectContext }
+    
+    var lastTeam0ScoreTime = NSDate.timeIntervalSinceReferenceDate()
+    var lastTeam1ScoreTime = NSDate.timeIntervalSinceReferenceDate()
     
     // MARK: Initialization
     
@@ -56,7 +63,7 @@ class ControlPadViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.registerForRFIDEvents()
+        self.registerForSentEvents()
         
         // listen to win notifications
         NSNotificationCenter.defaultCenter().addObserver(
@@ -129,13 +136,12 @@ class ControlPadViewController: UIViewController {
         self.presentViewController(winningViewController!, animated: true, completion: nil)
     }
     
-    func registerForRFIDEvents() {
-        let eventURL = "http://someeventsourceurl"
-        rfidEventSource = EventSource.eventSourceWithURL(NSURL(string: eventURL)) as? EventSource
+    func registerForSentEvents() {
+        let rfidEventURL = "http://someeventsourceurl"
+        rfidEventSource = EventSource.eventSourceWithURL(NSURL(string: rfidEventURL)) as? EventSource
         
         // listen for the status event
         rfidEventSource?.addEventListener("STATUS", handler: {[unowned self] (event: Event!) -> Void in
-            println("The RFID reader is online!")
             self.rfidReaderStatusIndicator.isOnline = true
         })
         
@@ -145,14 +151,54 @@ class ControlPadViewController: UIViewController {
         })
         
         // particle.io online event
-        let onlineEventURL = "https://api.particle.io/v1/devices/events/ping" + "?access_token=" + kParticleIOAccessToken
-        particleCoreEventSource = EventSource.eventSourceWithURL(NSURL(string: onlineEventURL)) as? EventSource
+        let particleEventURL = "https://api.particle.io/v1/devices/" + kParticleIODeviceID + "events?access_token=" + kParticleIOAccessToken
+        particleCoreEventSource = EventSource.eventSourceWithURL(NSURL(string: particleEventURL)) as? EventSource
         
         particleCoreEventSource?.addEventListener("ping", handler: {[unowned self] (event: Event!) -> Void in
-            println("The Particle is online!")
             self.tableStatusIndicator.isOnline = true
         })
         
+        // listen to the scored events
+        particleCoreEventSource?.addEventListener("scored", handler: { (event: Event!) -> Void in
+            var error: NSError?
+            let data = event.data.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
+            
+            var jsonError: NSError?
+            let json = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &jsonError) as? NSDictionary
+            
+            if let player = json?["data"] as? String {
+                
+                println("Player \(player) scored")
+                
+                if player == "1" {
+                    // team 0 pressed button
+                    let t = NSDate.timeIntervalSinceReferenceDate()
+                    
+                    // limit 1 point per interval
+                    if t - self.lastTeam0ScoreTime > kScoreLimitInterval {
+                        // add a point
+                        GameManager.sharedGameManager.currentGame?.team0Scored(1)
+                    }
+                    
+                    // update the last score time
+                    self.lastTeam0ScoreTime = t
+                }
+                else if player == "2" {
+                    // team 1 pressed button
+                    let t = NSDate.timeIntervalSinceReferenceDate()
+                    
+                    // limit 1 point per interval
+                    if t - self.lastTeam1ScoreTime > kScoreLimitInterval {
+                        // add a point
+                        // add a point
+                        GameManager.sharedGameManager.currentGame?.team1Scored(1)
+                    }
+                    
+                    // update the last score time
+                    self.lastTeam1ScoreTime = t
+                }
+            }
+        })
     }
     
     func didScanTag(tag: String) {

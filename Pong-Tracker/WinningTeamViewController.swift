@@ -17,9 +17,8 @@ let kDismissTimerInterval = 5.0
 class WinningTeamViewController: UIViewController {
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBAction func doneButtonTapped(sender: UIBarButtonItem) {
-        self.dismiss()
-    }
+    @IBOutlet weak var avatarView: AvatarView!
+    @IBAction func doneButtonTapped(sender: UIBarButtonItem) { self.dismiss() }
     
     var delegate: WinningTeamViewControllerDelegate?
     var winningTeam: Team?
@@ -49,6 +48,7 @@ class WinningTeamViewController: UIViewController {
         // set the title label
         if let team = self.winningTeam {
             self.titleLabel.text = team.playerOne.firstName! + " " + team.playerOne.lastName! + " Won!"
+            self.avatarView.player = team.playerOne
         }
         
         // start a timer to dismiss the controller

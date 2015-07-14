@@ -77,12 +77,6 @@ class TeamViewController: UIViewController {
             name: GameDidEndNotification,
             object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: "gameDidRestartNotification",
-            name: GameDidRestartNotification,
-            object: nil)
-        
         // team specific notifications
         if self.teamNumber == .Zero {
             NSNotificationCenter.defaultCenter().addObserver(
@@ -140,11 +134,6 @@ class TeamViewController: UIViewController {
     func gameSwappedTeamsNotification() {
         // update the view with team information
         self.reloadTeam()
-    }
-    
-    func gameDidRestartNotification() {
-        self.teamView.headerView.isServing = false
-        self.teamView.headerView.isMatchPoint = false
     }
     
     func gameDidEndNotification() {

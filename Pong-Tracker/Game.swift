@@ -22,25 +22,17 @@ let GameDidEndNotification = "com.pong-tracker.gamedidendnotification"
 let Team0WonGameNotification = "com.pong-tracker.team0wongamenotification"
 let Team1WonGameNotification = "com.pong-tracker.team1wongamenotification"
 
-protocol PingPongGame {
-    var maxScore: Int { get }
-    var serviceSwitchInterval: Int { get }
-    var leadRequiredToWin: Int { get }
+protocol GameDelegate {
+    func gameDidEnd()
 }
 
-protocol StandardGameDelegate {
-    func gameIsReady(); // enough players have joined to start the game
-    func gameDidEnd();
-}
-
-class StandardGame: PingPongGame {
+class Game {
     // game rules
     var maxScore: Int { return 11 }
     var serviceSwitchInterval: Int { return 2 }
     var leadRequiredToWin: Int { return 2 }
     
-    // delegate
-    var delegate: StandardGameDelegate?
+    var delegate: GameDelegate?
     
     // teams
     var team0: Team?
@@ -62,9 +54,6 @@ class StandardGame: PingPongGame {
         
         // notify delegate if game is ready
         if self.isGameReady {
-            self.delegate?.gameIsReady()
-            
-            // post notification
             NSNotificationCenter.defaultCenter().postNotificationName(GameDidBecomeReadyNotification, object: nil)
         }
     }
@@ -78,9 +67,6 @@ class StandardGame: PingPongGame {
         
         // notify delegate if game is ready
         if self.isGameReady {
-            self.delegate?.gameIsReady()
-            
-            // post notification
             NSNotificationCenter.defaultCenter().postNotificationName(GameDidBecomeReadyNotification, object: nil)
         }
     }
@@ -104,8 +90,6 @@ class StandardGame: PingPongGame {
     func startGameWithTeam(team: Team) {
         // mark the starting team
         self.startingTeam = team
-        
-        
     }
     
     func restartGame() {
@@ -121,9 +105,6 @@ class StandardGame: PingPongGame {
 
 	    self.team0?.hasMatchPoint = false
 	    self.team1?.hasMatchPoint = false
-        
-        // post notification
-        NSNotificationCenter.defaultCenter().postNotificationName(GameDidRestartNotification, object: nil)
     }
     
     func rematchGame() {
@@ -140,31 +121,12 @@ class StandardGame: PingPongGame {
         
         // post notification
         NSNotificationCenter.defaultCenter().postNotificationName(GameDidEndNotification, object: nil)
-        
-        // notify delegate
-        self.delegate?.gameDidEnd()
-    }
-    
-    func endAndSaveGame() {
-        // mark the starting team
-        self.startingTeam = nil
-        
-        // clear the existing teams
-        self.team0 = nil
-        self.team1 = nil
-        
-        // post notification
-        NSNotificationCenter.defaultCenter().postNotificationName(GameDidEndNotification, object: nil)
-        
-        // notify delegate
-        self.delegate?.gameDidEnd()
     }
     
     /// MARK: - Methods (Scoring)
     
     func updateGameState() {
         if self.isGameInProgress {
-            
             let team0Score = self.team0?.currentScore ?? 0
             let team1Score = self.team1?.currentScore ?? 0
             var somebodyWon = false
@@ -172,7 +134,6 @@ class StandardGame: PingPongGame {
             // did somebody win
             if (team0Score >= maxScore) && ((team0Score - team1Score) >= leadRequiredToWin) {
                 // team 0 won the game
-                // post notification
                 NSNotificationCenter.defaultCenter().postNotificationName(Team0WonGameNotification, object: nil, userInfo: ["team" : self.team0!])
                 
                 // someone won, so no need to post anymore notifications after this point
@@ -180,7 +141,6 @@ class StandardGame: PingPongGame {
             }
             else if (team1Score >= maxScore) && ((team1Score - team0Score) >= leadRequiredToWin) {
                 // team 1 won the game
-                // post notification
                 NSNotificationCenter.defaultCenter().postNotificationName(Team1WonGameNotification, object: nil, userInfo: ["team" : self.team1!])
                 
                 // someone won, so no need to post anymore notifications after this point
@@ -286,8 +246,8 @@ class StandardGame: PingPongGame {
             }
             else {
                 // update the score
-                if let newScore = self.team0?.currentScore where (newScore + points) >= 0 {
-                    self.team0?.currentScore = newScore + points
+                if let currentScore = self.team0?.currentScore where (currentScore + points) >= 0 {
+                    self.team0?.currentScore = currentScore + points
                 }
             }
             
@@ -305,8 +265,8 @@ class StandardGame: PingPongGame {
             }
             else {
                 // update the score
-                if let newScore = self.team1?.currentScore where (newScore + points) >= 0 {
-                    self.team1?.currentScore = newScore + points
+                if let currentScore = self.team1?.currentScore where (currentScore + points) >= 0 {
+                    self.team1?.currentScore = currentScore + points
                 }
             }
             

@@ -15,7 +15,8 @@ class TeamView: UIView {
     let headerView = TeamViewHeaderView()
     let scoreLabel = UILabel()
     let nameLabel = UILabel()
-    let topContainerView = UIView()
+    let containerView = UIView()
+    let centeringView = UIView()
     let playerAvatarView = AvatarView(size: .Large)
     let incrementButton: UIButton = UIButton.buttonWithType(.System) as! UIButton
     let decrementButton: UIButton = UIButton.buttonWithType(.System) as! UIButton
@@ -34,14 +35,6 @@ class TeamView: UIView {
             if let aTeam = team {
                 // load in the data
                 nameLabel.text = (aTeam.playerOne.firstName ?? "") + " " + (aTeam.playerOne.lastName ?? "")
-                
-//                // set the avatar view
-//                if let picture = aTeam.playerOne.picture {
-//                    playeyAvatarView.hidden = false
-//                }
-//                else {
-//                    playeyAvatarView.hidden = true
-//                }
                 
                 // pass the player to the avatar
                 playerAvatarView.player = aTeam.playerOne
@@ -68,10 +61,7 @@ class TeamView: UIView {
     
     @IBOutlet weak var selectPlayerButton: UIButton!
     
-    // keep track of the constraints added by this view
-    var rootLayoutConstraints = [AnyObject]()
-    
-    // MARK: Initialization
+    // MARK: - Initialization
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -95,36 +85,30 @@ class TeamView: UIView {
         self.backgroundColor = kBlueColor
         
         // configure content view
-        headerView.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.addSubview(headerView)
         
         // configure content view
-        topContainerView.setTranslatesAutoresizingMaskIntoConstraints(false)
-        self.addSubview(topContainerView)
+        self.addSubview(containerView)
+        
+        containerView.addSubview(centeringView)
         
         // increment button
-        topContainerView.addSubview(incrementButton)
+        centeringView.addSubview(incrementButton)
         
         // decrement button
-        topContainerView.addSubview(decrementButton)
+        centeringView.addSubview(decrementButton)
         
         // configure content view
-        scoreLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        topContainerView.addSubview(scoreLabel)
+        centeringView.addSubview(scoreLabel)
         
         // configure content view
-        nameLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
-        topContainerView.addSubview(nameLabel)
+        centeringView.addSubview(nameLabel)
         
         // configure content view
-        playerAvatarView.setTranslatesAutoresizingMaskIntoConstraints(false)
         self.addSubview(playerAvatarView)
         
         // configure view UI
         self.configureViewElements()
-        
-        // constraints
-        self.updateConstraints()
     }
     
     func configureViewElements() {
@@ -135,12 +119,6 @@ class TeamView: UIView {
         self.decrementButton.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
         self.decrementButton.titleLabel?.font = UIFont.systemFontOfSize(32)
         self.decrementButton.setTitle("-", forState: .Normal)
-        self.decrementButton.mas_makeConstraints { make in
-            make.leading.equalTo()(self.topContainerView).with().offset()(60);
-            make.centerY.equalTo()(self.scoreLabel)
-            make.width.mas_equalTo()(44)
-            make.height.mas_equalTo()(44)
-        }
         
         // configure the increment button
         self.incrementButton.contentEdgeInsets = UIEdgeInsetsMake(-5, 0, 0, 0)
@@ -149,12 +127,6 @@ class TeamView: UIView {
         self.incrementButton.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
         self.incrementButton.titleLabel?.font = UIFont.systemFontOfSize(32)
         self.incrementButton.setTitle("+", forState: .Normal)
-        self.incrementButton.mas_makeConstraints { make in
-            make.trailing.equalTo()(self.topContainerView).with().offset()(-60);
-            make.centerY.equalTo()(self.scoreLabel)
-            make.width.mas_equalTo()(44)
-            make.height.mas_equalTo()(44)
-        }
         
         // configure the score label
         self.scoreLabel.font = UIFont.systemFontOfSize(100.0)
@@ -162,9 +134,10 @@ class TeamView: UIView {
         self.scoreLabel.text = "0"
         
         // configure the name label
-        self.nameLabel.font = UIFont.systemFontOfSize(24.0)
+        self.nameLabel.font = UIFont.systemFontOfSize(48.0)
         self.nameLabel.textColor = UIColor.whiteColor()
         self.nameLabel.text = "John Doe"
+        self.nameLabel.textAlignment = .Center
         
         // debug layout
         if debugLayout {
@@ -180,65 +153,73 @@ class TeamView: UIView {
             self.selectPlayerButton?.layer.borderColor = UIColor.greenColor().CGColor
             self.selectPlayerButton?.layer.borderWidth = 1.0
             
-            self.topContainerView.layer.borderColor = UIColor.redColor().CGColor
-            self.topContainerView.layer.borderWidth = 1.0
+            self.containerView.layer.borderColor = UIColor.redColor().CGColor
+            self.containerView.layer.borderWidth = 1.0
+            
+            self.centeringView.layer.borderColor = UIColor.purpleColor().CGColor
+            self.centeringView.layer.borderWidth = 1.0
         }
     }
     
-    // MARK: Constraints
+    // MARK: - Constraints
     
     override func updateConstraints() {
-        // remove any existing constraints
-        if self.rootLayoutConstraints.count > 0 {
-            self.removeConstraints(self.rootLayoutConstraints)
-            self.rootLayoutConstraints.removeAll(keepCapacity: false)
+        self.decrementButton.mas_remakeConstraints { make in
+            make.leading.equalTo()(self.centeringView).with().offset()(60);
+            make.centerY.equalTo()(self.scoreLabel)
+            make.width.mas_equalTo()(44)
+            make.height.mas_equalTo()(44)
         }
         
-        // group all the content view into an array
-        let views = ["headerView" : self.headerView, "topContainer" : self.topContainerView, "score" : self.scoreLabel, "name" : self.nameLabel, "avatar" : self.playerAvatarView]
+        self.scoreLabel.mas_remakeConstraints { make in
+            make.top.equalTo()(self.centeringView)
+            make.bottom.equalTo()(self.nameLabel.mas_top)
+            make.centerX.equalTo()(self.centeringView)
+        }
         
-        // configure the various constraints
-        let headerViewLTR = NSLayoutConstraint.constraintsWithVisualFormat("|-0-[headerView]-0-|", options: nil, metrics: nil, views: views)
-        let topContainerLTR = NSLayoutConstraint.constraintsWithVisualFormat("|-0-[topContainer]-0-|", options: nil, metrics: nil, views: views)
+        self.incrementButton.mas_remakeConstraints { make in
+            make.trailing.equalTo()(self.centeringView).with().offset()(-60);
+            make.centerY.equalTo()(self.scoreLabel)
+            make.width.mas_equalTo()(44)
+            make.height.mas_equalTo()(44)
+        }
         
-        let scoreLabelCenterY = NSLayoutConstraint(
-            item: self.scoreLabel,
-            attribute: NSLayoutAttribute.CenterY,
-            relatedBy: NSLayoutRelation.Equal,
-            toItem: self.topContainerView,
-            attribute: NSLayoutAttribute.CenterY,
-            multiplier: 1.0,
-            constant: 0.0
-        )
+        self.nameLabel.mas_remakeConstraints { make in
+            make.leading.equalTo()(self.centeringView)
+            make.trailing.equalTo()(self.centeringView)
+            make.bottom.equalTo()(self.centeringView)
+        }
         
-        let scoreLabelCenterX = NSLayoutConstraint(
-            item: self.scoreLabel,
-            attribute: NSLayoutAttribute.CenterX,
-            relatedBy: NSLayoutRelation.Equal,
-            toItem: self.topContainerView,
-            attribute: NSLayoutAttribute.CenterX,
-            multiplier: 1.0,
-            constant: 0.0
-        )
+        self.headerView.mas_remakeConstraints { make in
+            make.leading.equalTo()(self)
+            make.top.equalTo()(self)
+            make.trailing.equalTo()(self)
+            make.height.equalTo()(80)
+        }
         
-        let topContainerTTB = NSLayoutConstraint.constraintsWithVisualFormat("V:[score]-0-[name]", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: views)
-        let verticalTTB = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[headerView(80)]-0-[topContainer]-40-[avatar]-0-|", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: nil, views: views)
+        self.containerView.mas_remakeConstraints { make in
+            make.leading.equalTo()(self)
+            make.top.equalTo()(self.headerView.mas_bottom)
+            make.trailing.equalTo()(self)
+            make.bottom.equalTo()(self.playerAvatarView.mas_top)
+        }
         
-        // add the constraitns to the tracking array
-        self.rootLayoutConstraints += headerViewLTR
-        self.rootLayoutConstraints += topContainerLTR
-        self.rootLayoutConstraints += [scoreLabelCenterY, scoreLabelCenterX]
-        self.rootLayoutConstraints += topContainerTTB
-        self.rootLayoutConstraints += verticalTTB
+        self.centeringView.mas_remakeConstraints { make in
+            make.leading.equalTo()(self.containerView)
+            make.trailing.equalTo()(self.containerView)
+            make.centerY.equalTo()(self.containerView)
+        }
         
-        // add the constaints
-        self.addConstraints(self.rootLayoutConstraints)
+        self.playerAvatarView.mas_remakeConstraints { make in
+            make.top.equalTo()(self.containerView.mas_bottom)
+            make.bottom.equalTo()(self)
+            make.centerX.equalTo()(self)
+        }
         
-        // call the super implementation
         super.updateConstraints()
     }
     
-    // MARK: Methods (Public)
+    // MARK: - Methods (Public)
     
     func setTeamInfoShown(shown: Bool, animated: Bool) {
         if animated {
@@ -255,22 +236,22 @@ class TeamView: UIView {
         }
     }
     
-    // MARK: Methods (Private)
+    // MARK: - Methods (Private)
     
     private func setTeamInfoShown(shown: Bool) {
         if shown {
-            self.topContainerView.alpha = 1.0
+            self.containerView.alpha = 1.0
             self.playerAvatarView.alpha = 1.0
             self.selectPlayerButton.alpha = 0.0;
         }
         else {
-            self.topContainerView.alpha = 0.0
+            self.containerView.alpha = 0.0
             self.playerAvatarView.alpha = 0.0
             self.selectPlayerButton.alpha = 1.0;
         }
     }
     
-    // MARK: KVO
+    // MARK: - KVO
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
             if keyPath == "isServing" {
@@ -301,5 +282,4 @@ class TeamView: UIView {
                 super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
             }
     }
-
 }

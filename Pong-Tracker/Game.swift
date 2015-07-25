@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 // team joined
 let Team0JoinedGameNotification = "com.pong-tracker.team0JoinedGame.notification"
@@ -42,6 +43,7 @@ class Game {
     var isGameInProgress: Bool { return startingTeam != nil }
     
     var startingTeam: Team?
+    var speechHelper = SpeechHelper()
     
     // MARK: - Methods
     
@@ -134,14 +136,14 @@ class Game {
             // did somebody win
             if (team0Score >= maxScore) && ((team0Score - team1Score) >= leadRequiredToWin) {
                 // team 0 won the game
-                NSNotificationCenter.defaultCenter().postNotificationName(Team0WonGameNotification, object: nil, userInfo: ["team" : self.team0!])
+                self.teamWonTheGame(self.team0!)
                 
                 // someone won, so no need to post anymore notifications after this point
                 somebodyWon = true
             }
             else if (team1Score >= maxScore) && ((team1Score - team0Score) >= leadRequiredToWin) {
                 // team 1 won the game
-                NSNotificationCenter.defaultCenter().postNotificationName(Team1WonGameNotification, object: nil, userInfo: ["team" : self.team1!])
+                self.teamWonTheGame(self.team1!)
                 
                 // someone won, so no need to post anymore notifications after this point
                 somebodyWon = true
@@ -166,18 +168,15 @@ class Game {
                 // does somwone have the match point?
                 if (team0Score >= (maxScore - 1)) && ((team0Score - team1Score) >= (leadRequiredToWin - 1)) {
                     // team 0 has match point
-                    self.team0?.hasMatchPoint = true
-                    self.team1?.hasMatchPoint = false
+                    self.teamHasGamePoint(self.team0)
                 }
                 else if (team1Score >= (maxScore - 1)) && ((team1Score - team0Score) >= (leadRequiredToWin - 1)) {
                     // team 1 has a game point
-                    self.team0?.hasMatchPoint = false
-                    self.team1?.hasMatchPoint = true
+                    self.teamHasGamePoint(self.team1)
                 }
                 else {
                     // nobody has a match point
-                    self.team0?.hasMatchPoint = false
-                    self.team1?.hasMatchPoint = false
+                    self.teamHasGamePoint(nil)
                 }
                 
                 // who is serving
@@ -212,25 +211,21 @@ class Game {
                     }
                 }
                 
-                // post notification
-                if startingTeam == team0 {
+                // compute the serving team
+                if startingTeam == self.team0 {
                     if firstTeamIsServing {
-                        self.team0?.isServing = true
-                        self.team1?.isServing = false
+                        self.teamIsServing(team0)
                     }
                     else {
-                        self.team0?.isServing = false
-                        self.team1?.isServing = true
+                        self.teamIsServing(team1)
                     }
                 }
                 else {
                     if firstTeamIsServing {
-                        self.team0?.isServing = false
-                        self.team1?.isServing = true
+                        self.teamIsServing(team1)
                     }
                     else {
-                        self.team0?.isServing = true
-                        self.team1?.isServing = false
+                        self.teamIsServing(team0)
                     }
                 }
             }
@@ -272,6 +267,76 @@ class Game {
             
             // update game
             self.updateGameState()
+        }
+    }
+    
+    // MARK: - Events
+    
+    func teamWonTheGame(aTeam: Team?) {
+        if let team = aTeam {
+            if team == self.team0 {
+                NSNotificationCenter.defaultCenter().postNotificationName(Team0WonGameNotification, object: nil, userInfo: ["team" : self.team0!])
+                
+                SpeechHelper.sharedSpeechHelper.utterWinningTeam(self.team0!)
+                SpeechHelper.sharedSpeechHelper.insultTeam(self.team1!)
+            }
+            else if team == self.team1 {
+                NSNotificationCenter.defaultCenter().postNotificationName(Team1WonGameNotification, object: nil, userInfo: ["team" : self.team1!])
+                
+                SpeechHelper.sharedSpeechHelper.utterWinningTeam(self.team1!)
+                SpeechHelper.sharedSpeechHelper.insultTeam(self.team0!)
+            }
+        }
+    }
+    
+    func teamHasGamePoint(aTeam: Team?) {
+        let changed = (aTeam?.hasMatchPoint != true) ?? false
+        
+        // speak
+        if changed && (aTeam != nil) {
+            SpeechHelper.sharedSpeechHelper.utterMatchPointTeam(aTeam!)
+        }
+        
+        // update indicators
+        if aTeam == self.team0 {
+            // team 0 is serving
+            self.team0?.hasMatchPoint = true
+            self.team1?.hasMatchPoint = false
+        }
+        else if aTeam == self.team1 {
+            // team 1 is serving
+            self.team0?.hasMatchPoint = false
+            self.team1?.hasMatchPoint = true
+        }
+        else {
+            // reset
+            self.team0?.hasMatchPoint = false
+            self.team1?.hasMatchPoint = false
+        }
+    }
+    
+    func teamIsServing(aTeam: Team?) {
+        let changed = (aTeam?.isServing != true) ?? false // if this team is serving but
+        
+        // speak
+        if changed && (aTeam != nil) {
+            SpeechHelper.sharedSpeechHelper.utterMatchPointTeam(aTeam!)
+        }
+        
+        if aTeam == self.team0 {
+            // team 0 is serving
+            self.team0?.isServing = true
+            self.team1?.isServing = false
+        }
+        else if aTeam == self.team1 {
+            // team 1 is serving
+            self.team0?.isServing = false
+            self.team1?.isServing = true
+        }
+        else {
+            // reset
+            self.team0?.isServing = false
+            self.team1?.isServing = false
         }
     }
 }

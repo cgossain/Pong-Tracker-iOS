@@ -22,6 +22,7 @@
 		104F75DB1B13FB8100C5097E /* TeamSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104F75DA1B13FB8100C5097E /* TeamSelectorViewController.swift */; };
 		1052BF771B439D2200C7904C /* TextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1052BF761B439D2200C7904C /* TextFieldTableViewCell.swift */; };
 		1052BF791B43AA3B00C7904C /* EditPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1052BF781B43AA3B00C7904C /* EditPlayerViewController.swift */; };
+		1078AB8A1B55FA7100C7F18F /* SpeechHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1078AB891B55FA7100C7F18F /* SpeechHelper.swift */; };
 		10845E671B3F0BD600D48B8E /* TransientPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10845E661B3F0BD600D48B8E /* TransientPresentationController.swift */; };
 		10845E6D1B405E3600D48B8E /* PopPresentationAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10845E6C1B405E3600D48B8E /* PopPresentationAnimator.swift */; };
 		10B0B1361B212E570030BFF7 /* ScoreStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10B0B1351B212E570030BFF7 /* ScoreStepper.swift */; };
@@ -74,6 +75,7 @@
 		104F75DA1B13FB8100C5097E /* TeamSelectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamSelectorViewController.swift; sourceTree = "<group>"; };
 		1052BF761B439D2200C7904C /* TextFieldTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTableViewCell.swift; sourceTree = "<group>"; };
 		1052BF781B43AA3B00C7904C /* EditPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditPlayerViewController.swift; sourceTree = "<group>"; };
+		1078AB891B55FA7100C7F18F /* SpeechHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechHelper.swift; sourceTree = "<group>"; };
 		10845E661B3F0BD600D48B8E /* TransientPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientPresentationController.swift; sourceTree = "<group>"; };
 		10845E6C1B405E3600D48B8E /* PopPresentationAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopPresentationAnimator.swift; sourceTree = "<group>"; };
 		10B0B1351B212E570030BFF7 /* ScoreStepper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreStepper.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 				1048783B1B1BFFD900E4CB01 /* GameManager.swift */,
 				1052BF761B439D2200C7904C /* TextFieldTableViewCell.swift */,
 				10223E061B49AF9F0067D555 /* AvatarTableViewCell.swift */,
+				1078AB891B55FA7100C7F18F /* SpeechHelper.swift */,
 				10845E681B3F0BDC00D48B8E /* Custom Presentation */,
 				102FC4C91B3A6CCF00916983 /* Controls */,
 				86F56FE71AF94837001F620A /* Model */,
@@ -418,6 +421,7 @@
 				10223E051B49A5390067D555 /* AvatarView.swift in Sources */,
 				102B553A1B4CDAA000F58FFC /* PongTrackerDefines.swift in Sources */,
 				104F75DB1B13FB8100C5097E /* TeamSelectorViewController.swift in Sources */,
+				1078AB8A1B55FA7100C7F18F /* SpeechHelper.swift in Sources */,
 				10223E111B49C0490067D555 /* GSCoreDataDeepCopyManager.m in Sources */,
 				869BC9BD1AF87AE70095A8B9 /* ControlPadViewController.swift in Sources */,
 				10223E091B49BC940067D555 /* PlayersListViewController.swift in Sources */,

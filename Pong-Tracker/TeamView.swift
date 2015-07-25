@@ -255,18 +255,22 @@ class TeamView: UIView {
     
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
             if keyPath == "isServing" {
-                var isServing = false
+                let isServing = self.team?.isServing ?? false
+                let changed = self.headerView.isServing != isServing
                 
-                if let aTeam = self.team {
-                    isServing = aTeam.isServing
+                // speak
+                if isServing && changed {
+                    SpeechHelper.sharedSpeechHelper.utterServingTeam(self.team!)
                 }
                 self.headerView.isServing = isServing
             }
             else if keyPath == "hasMatchPoint" {
-                var isMatchPoint = false
+                let isMatchPoint = self.team?.hasMatchPoint ?? false
+                let changed = self.headerView.isMatchPoint != isMatchPoint
                 
-                if let aTeam = self.team {
-                    isMatchPoint = aTeam.hasMatchPoint
+                // speak
+                if isMatchPoint && changed {
+                    SpeechHelper.sharedSpeechHelper.utterMatchPointTeam(self.team!)
                 }
                 self.headerView.isMatchPoint = isMatchPoint
             }

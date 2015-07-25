@@ -49,7 +49,6 @@ class AvatarTableViewCell: UITableViewCell {
         // title label
         self.titleLabel.mas_makeConstraints { make in
             make.leading.equalTo()(self.avatarView.mas_trailing).with().offset()(15)
-//            make.trailing.equalTo()(self.contentView.mas_trailing).with().offset()(-15)
             make.centerY.equalTo()(self.contentView)
         }
     }

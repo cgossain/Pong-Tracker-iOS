@@ -151,7 +151,7 @@ class ControlPadViewController: UIViewController {
         })
         
         // particle.io online event
-        let particleEventURL = "https://api.particle.io/v1/devices/" + kParticleIODeviceID + "events?access_token=" + kParticleIOAccessToken
+        let particleEventURL = "https://api.particle.io/v1/devices/events" + "?access_token=" + kParticleIOAccessToken
         particleCoreEventSource = EventSource.eventSourceWithURL(NSURL(string: particleEventURL)) as? EventSource
         
         particleCoreEventSource?.addEventListener("ping", handler: {[unowned self] (event: Event!) -> Void in
@@ -178,10 +178,10 @@ class ControlPadViewController: UIViewController {
                     if t - self.lastTeam0ScoreTime > kScoreLimitInterval {
                         // add a point
                         GameManager.sharedGameManager.currentGame?.team0Scored(1)
+                        
+                        // update the last score time
+                        self.lastTeam0ScoreTime = t
                     }
-                    
-                    // update the last score time
-                    self.lastTeam0ScoreTime = t
                 }
                 else if player == "2" {
                     // team 1 pressed button
@@ -190,12 +190,11 @@ class ControlPadViewController: UIViewController {
                     // limit 1 point per interval
                     if t - self.lastTeam1ScoreTime > kScoreLimitInterval {
                         // add a point
-                        // add a point
                         GameManager.sharedGameManager.currentGame?.team1Scored(1)
+                        
+                        // update the last score time
+                        self.lastTeam1ScoreTime = t
                     }
-                    
-                    // update the last score time
-                    self.lastTeam1ScoreTime = t
                 }
             }
         })

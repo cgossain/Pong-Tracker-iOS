@@ -27,7 +27,7 @@ class ScoreStepper: UIStepper {
                 //self.enabled = true
                 
                 // remove observers
-                t.addObserver(self, forKeyPath: "currentScore", options: nil, context: nil)
+                t.addObserver(self, forKeyPath: "currentScore", options: [], context: nil)
             }
             else {
                 //self.value = 0.0 // reset the value
@@ -39,7 +39,7 @@ class ScoreStepper: UIStepper {
         self.team = nil
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         self.autorepeat = false
@@ -61,13 +61,12 @@ class ScoreStepper: UIStepper {
     
     // MARK: - KVO
     
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if keyPath == "currentScore" {
             let currentScore = self.team?.currentScore
             
             self.value = Double(currentScore ?? 0)
-        }
-        else {
+        } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }

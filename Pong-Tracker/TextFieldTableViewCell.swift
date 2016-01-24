@@ -21,7 +21,7 @@ class TextFieldTableViewCell: UITableViewCell {
     }
 
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         self.commonInit()
     }
     
@@ -66,7 +66,7 @@ class TextFieldTableViewCell: UITableViewCell {
     // MARK: Text Field Notifications
     
     func textFieldDidChangeNotification(notification: NSNotification) {
-        self.textFieldChangedHandler?(text: self.detailTextField.text)
+        self.textFieldChangedHandler?(text: self.detailTextField.text!)
     }
     
     // MARK: Constraints

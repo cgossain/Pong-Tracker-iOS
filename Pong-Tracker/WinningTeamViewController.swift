@@ -31,8 +31,8 @@ class WinningTeamViewController: UIViewController {
         self.modalPresentationStyle = UIModalPresentationStyle.Custom
         self.transitioningDelegate = self
     }
-
-    required init(coder aDecoder: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         // configure the default presentation
@@ -75,7 +75,7 @@ class WinningTeamViewController: UIViewController {
 
 extension WinningTeamViewController: UIViewControllerTransitioningDelegate {
     
-    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController? {
+    func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController, sourceViewController source: UIViewController) -> UIPresentationController? {
         return TransientPresentationController(presentedViewController: presented, presentingViewController: presenting)
     }
     

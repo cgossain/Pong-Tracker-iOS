@@ -67,7 +67,7 @@ class PlayersListViewController: UITableViewController {
         // display the player name
         let firstName = object.firstName ?? ""
         let lastName = object.lastName ?? ""
-        let space = (count(firstName) > 0 && count(lastName) > 0) ? " " : ""
+        let space = (firstName.characters.count > 0) && (lastName.characters.count > 0) ? " " : ""
         
         // update the player name
         cell.titleLabel.text = firstName + space + lastName
@@ -94,7 +94,7 @@ class PlayersListViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
+        let sectionInfo = self.fetchedResultsController.sections![section] 
         return sectionInfo.numberOfObjects
     }
     
@@ -138,12 +138,11 @@ class PlayersListViewController: UITableViewController {
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         
-        var error: NSError? = nil
-        if !_fetchedResultsController!.performFetch(&error) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            println("Unresolved error \(error), \(error!.userInfo)")
-//            abort()
+        do {
+            try _fetchedResultsController?.performFetch()
+        }
+        catch {
+            print("Unresolved error \(error)")
         }
         
         return _fetchedResultsController!

@@ -122,6 +122,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		10217A8A1C555BC6002F8D32 /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				10223E061B49AF9F0067D555 /* AvatarTableViewCell.swift */,
+				1052BF761B439D2200C7904C /* TextFieldTableViewCell.swift */,
+			);
+			name = "Table View Cells";
+			sourceTree = "<group>";
+		};
 		10223E131B49C04F0067D555 /* Core Data Management */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,9 +218,8 @@
 				10D1E1111B3E28A10071AFF3 /* WinningTeamViewController.swift */,
 				104F75DA1B13FB8100C5097E /* TeamSelectorViewController.swift */,
 				1048783B1B1BFFD900E4CB01 /* GameManager.swift */,
-				1052BF761B439D2200C7904C /* TextFieldTableViewCell.swift */,
-				10223E061B49AF9F0067D555 /* AvatarTableViewCell.swift */,
 				1078AB891B55FA7100C7F18F /* SpeechHelper.swift */,
+				10217A8A1C555BC6002F8D32 /* Table View Cells */,
 				10845E681B3F0BDC00D48B8E /* Custom Presentation */,
 				102FC4C91B3A6CCF00916983 /* Controls */,
 				86F56FE71AF94837001F620A /* Model */,
@@ -308,6 +316,7 @@
 		86E853B51AF6D490008CB469 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Christian R. Gossain";
 				TargetAttributes = {

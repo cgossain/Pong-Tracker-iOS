@@ -160,48 +160,51 @@ class ControlPadViewController: UIViewController {
         
         // listen to the scored events
         particleCoreEventSource?.addEventListener("scored", handler: { (event: Event!) -> Void in
-            var error: NSError?
             let data = event.data.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!
             
-            var jsonError: NSError?
-            let json = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &jsonError) as? NSDictionary
-            
-            if let player = json?["data"] as? String {
+            do {
+                let json = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? NSDictionary
                 
-                println("Player \(player) scored")
-                
-                if player == "1" {
-                    // team 0 pressed button
-                    let t = NSDate.timeIntervalSinceReferenceDate()
+                if let player = json?["data"] as? String {
                     
-                    // limit 1 point per interval
-                    if t - self.lastTeam0ScoreTime > kScoreLimitInterval {
-                        // add a point
-                        GameManager.sharedGameManager.currentGame?.team0Scored(1)
+                    print("Player \(player) scored")
+                    
+                    if player == "1" {
+                        // team 0 pressed button
+                        let t = NSDate.timeIntervalSinceReferenceDate()
                         
-                        // update the last score time
-                        self.lastTeam0ScoreTime = t
+                        // limit 1 point per interval
+                        if t - self.lastTeam0ScoreTime > kScoreLimitInterval {
+                            // add a point
+                            GameManager.sharedGameManager.currentGame?.team0Scored(1)
+                            
+                            // update the last score time
+                            self.lastTeam0ScoreTime = t
+                        }
+                    }
+                    else if player == "2" {
+                        // team 1 pressed button
+                        let t = NSDate.timeIntervalSinceReferenceDate()
+                        
+                        // limit 1 point per interval
+                        if t - self.lastTeam1ScoreTime > kScoreLimitInterval {
+                            // add a point
+                            GameManager.sharedGameManager.currentGame?.team1Scored(1)
+                            
+                            // update the last score time
+                            self.lastTeam1ScoreTime = t
+                        }
                     }
                 }
-                else if player == "2" {
-                    // team 1 pressed button
-                    let t = NSDate.timeIntervalSinceReferenceDate()
-                    
-                    // limit 1 point per interval
-                    if t - self.lastTeam1ScoreTime > kScoreLimitInterval {
-                        // add a point
-                        GameManager.sharedGameManager.currentGame?.team1Scored(1)
-                        
-                        // update the last score time
-                        self.lastTeam1ScoreTime = t
-                    }
-                }
+            }
+            catch {
+                print("JSON error: \(error)")
             }
         })
     }
     
     func didScanTag(tag: String) {
-        println("The scanned RFID code is: \(tag)")
+        print("The scanned RFID code is: \(tag)")
         
         // add the player if not editing a player (we could be associating a tag with a player)
         if !GameManager.sharedGameManager.playerEditInProgress {
@@ -210,18 +213,22 @@ class ControlPadViewController: UIViewController {
             fetchRequest.predicate = NSPredicate(format: "tagID == %@", tag)
             
             // execute the request
-            var error: NSError? = nil
-            let results = self.managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as! [Player]
-            
-            if !results.isEmpty {
-                // there is a match
-                let player = results.first!
+            do {
+                let results = try self.managedObjectContext.executeFetchRequest(fetchRequest) as! [Player]
                 
-                // wrap the player in a team object
-                let team = Team(name: "Team", playerOne: player, playerTwo: nil)
-                
-                // notify the delegate
-                self.delegate?.controlPadViewController(self, didSelectTeam: team)
+                if !results.isEmpty {
+                    // there is a match
+                    let player = results.first!
+                    
+                    // wrap the player in a team object
+                    let team = Team(name: "Team", playerOne: player, playerTwo: nil)
+                    
+                    // notify the delegate
+                    self.delegate?.controlPadViewController(self, didSelectTeam: team)
+                }
+            }
+            catch {
+                print("Fetch Error: \(error)")
             }
         }
         

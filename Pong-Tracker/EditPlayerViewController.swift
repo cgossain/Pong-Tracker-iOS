@@ -137,7 +137,7 @@ class EditPlayerViewController: UITableViewController {
             let heightOffset = (height - newDimension) / 2.0
             
             UIGraphicsBeginImageContextWithOptions(CGSize(width: newDimension, height: newDimension), false, 0.0)
-            image.drawAtPoint(CGPoint(x: -widthOffset, y: -heightOffset), blendMode: kCGBlendModeCopy, alpha: 1.0)
+            image.drawAtPoint(CGPoint(x: -widthOffset, y: -heightOffset), blendMode: .Copy, alpha: 1.0)
             UIGraphicsEndImageContext()
         }
         return image
@@ -170,10 +170,6 @@ class EditPlayerViewController: UITableViewController {
         // notify the delegate
         self.delegate?.editPlayerViewControllerDidFinish(self)
     }
-    
-}
-
-extension EditPlayerViewController: UITableViewDataSource, UITableViewDelegate {
     
     // MARK: - UITableViewDataSource
     
@@ -300,6 +296,7 @@ extension EditPlayerViewController: UITableViewDataSource, UITableViewDelegate {
             self.presentViewController(alert, animated: true, completion: nil);
         }
     }
+    
 }
 
 extension EditPlayerViewController: TagScanViewControllerDelegate {

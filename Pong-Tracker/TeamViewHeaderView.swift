@@ -34,19 +34,16 @@ class TeamViewHeaderView: UIView {
         self.commonInit()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        // perform common init
         self.commonInit()
     }
     
     func commonInit() {
-        // background color
         self.backgroundColor = UIColor.darkGrayColor().colorWithAlphaComponent(0.8)
         
         // label style
-        titleLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(titleLabel)
         
         titleLabel.font = UIFont.systemFontOfSize(28.0)

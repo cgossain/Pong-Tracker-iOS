@@ -67,29 +67,32 @@ class TagScanViewController: UIViewController {
         self.scannedTag = note.userInfo?[ControlPadScannedTagKey] as? String
         
         if let tag = self.scannedTag {
-            println("The scanned RFID code is: \(tag)")
+            print("The scanned RFID code is: \(tag)")
             
             // check if the tag is already associated with a player
             let fetchRequest = NSFetchRequest(entityName: "Player")
             fetchRequest.predicate = NSPredicate(format: "tagID == %@", tag)
             
             // execute the request
-            var error: NSError? = nil
-            let results = self.managedObjectContext.executeFetchRequest(fetchRequest, error: &error) as! [Player]
-            
-            if results.isEmpty {
-                // no match
-                self.scanStateSuccessfulWithTag(tag);
+            do {
+                let results = try managedObjectContext.executeFetchRequest(fetchRequest) as! [Player]
+                if results.isEmpty {
+                    // no match
+                    self.scanStateSuccessfulWithTag(tag);
+                }
+                else {
+                    // there is a match
+                    let player = results.first!
+                    
+                    // clear out the currently stored tag
+                    self.scannedTag = nil
+                    
+                    // a player is already associated with this tag
+                    self.scanStateFailedWithExistingPlayer(player)
+                }
             }
-            else {
-                // there is a match
-                let player = results.first!
-                
-                // clear out the currently stored tag
-                self.scannedTag = nil
-                
-                // a player is already associated with this tag
-                self.scanStateFailedWithExistingPlayer(player)
+            catch {
+                print("Fetch Error: \(error)")
             }
         }
     }

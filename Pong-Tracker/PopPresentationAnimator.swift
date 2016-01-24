@@ -19,7 +19,7 @@ class PopPresentationAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     // MARK: UIViewControllerAnimatedTransitioning
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
         return self.presenting ? 0.6 : 0.6
     }
     
@@ -45,7 +45,7 @@ class PopPresentationAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             presented.frame = context.finalFrameForViewController(viewController)
             
             // add the view to the container view
-            containerView.addSubview(presented)
+            containerView!.addSubview(presented)
             
             // begin at 1% scale
             presented.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.01, 0.01)
@@ -55,7 +55,7 @@ class PopPresentationAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 delay: 0.0,
                 usingSpringWithDamping: 0.6,
                 initialSpringVelocity: 0.2,
-                options: nil,
+                options: [],
                 animations: { () -> Void in
                     // animate to 100% scale
                     presented.transform = CGAffineTransformIdentity

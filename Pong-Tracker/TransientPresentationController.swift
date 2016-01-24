@@ -12,7 +12,7 @@ class TransientPresentationController: UIPresentationController {
     
     let dimmingView: UIView
     
-    override init(presentedViewController: UIViewController!, presentingViewController: UIViewController!) {
+    override init(presentedViewController: UIViewController, presentingViewController: UIViewController) {
         dimmingView = UIView()
         dimmingView.backgroundColor = UIColor.blackColor()
         super.init(presentedViewController: presentedViewController, presentingViewController: presentingViewController)
@@ -21,11 +21,11 @@ class TransientPresentationController: UIPresentationController {
     // MARK: Presentation
     
     override func presentationTransitionWillBegin() {
-        self.dimmingView.frame = self.containerView.bounds;
+        self.dimmingView.frame = self.containerView!.bounds;
         self.dimmingView.alpha = 0.0;
         
-        self.containerView.addSubview(self.dimmingView)
-        self.containerView.addSubview(self.presentedView())
+        self.containerView!.addSubview(self.dimmingView)
+        self.containerView!.addSubview(self.presentedView()!)
         
         // fade in the dimming view
         self.presentingViewController.transitionCoordinator()?.animateAlongsideTransition({ (context: UIViewControllerTransitionCoordinatorContext!) -> Void in
@@ -58,12 +58,12 @@ class TransientPresentationController: UIPresentationController {
     
     override func frameOfPresentedViewInContainerView() -> CGRect {
         // width and height
-        var width = 600.0
-        var height = 600.0
+        let width = 600.0
+        let height = 600.0
         
         // origin
-        var x = (Double(self.containerView.bounds.size.width) - width) / 2.0
-        var y = (Double(self.containerView.bounds.size.height) - height) / 2.0
+        let x = (Double(self.containerView!.bounds.size.width) - width) / 2.0
+        let y = (Double(self.containerView!.bounds.size.height) - height) / 2.0
         
         // return the frame
         return CGRect(x: x, y: y, width: width, height: height)

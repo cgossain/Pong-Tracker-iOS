@@ -28,9 +28,9 @@ class AvatarView: UIControl {
         didSet {
             if let p = player {
                 // add observers to the new player
-                p.addObserver(self, forKeyPath: "firstName", options: nil, context: nil)
-                p.addObserver(self, forKeyPath: "lastName", options: nil, context: nil)
-                p.addObserver(self, forKeyPath: "picture", options: nil, context: nil)
+                p.addObserver(self, forKeyPath: "firstName", options: [], context: nil)
+                p.addObserver(self, forKeyPath: "lastName", options: [], context: nil)
+                p.addObserver(self, forKeyPath: "picture", options: [], context: nil)
             }
             
             // update the label
@@ -44,11 +44,10 @@ class AvatarView: UIControl {
     
     // MARK: KVO
     
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if keyPath == "firstName" || keyPath == "lastName" || keyPath == "picture" {
             self.updateAvatar()
-        }
-        else {
+        } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
@@ -61,28 +60,32 @@ class AvatarView: UIControl {
         self.commonInit()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         avatarViewSize = AvatarViewSize.PreDefined
         super.init(coder: aDecoder)
         self.commonInit()
     }
     
     func commonInit() {
-        // do not increase in size
-        self.setContentHuggingPriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
-        self.setContentHuggingPriority(1000, forAxis: UILayoutConstraintAxis.Vertical)
-        
         self.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
         self.clipsToBounds = true
         
         if self.avatarViewSize == .Small {
-            self.layer.cornerRadius = CGFloat(self.desiredDiameter()/2.0)
+            self.layer.cornerRadius = CGFloat(self.desiredDiameter() / 2.0)
         }
         
         self.addSubview(initialsLabel)
-        self.initialsLabel.textColor = UIColor.whiteColor()
+        initialsLabel.textColor = UIColor.whiteColor()
         
         self.addSubview(imageView)
+        imageView.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        imageView.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Vertical)
+        
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        imageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Vertical)
+        
+        imageView.layer.borderColor = UIColor.greenColor().CGColor
+        imageView.layer.borderWidth = 1.0
         
         self.setupConstraint()
     }
@@ -100,22 +103,18 @@ class AvatarView: UIControl {
     
     func setupConstraint() {
         // initials label
-        self.initialsLabel.mas_makeConstraints { make in
+        initialsLabel.mas_makeConstraints { make in
             make.center.equalTo()(self)
         }
         
         // image view
-        self.imageView.mas_makeConstraints { make in
+        imageView.mas_makeConstraints { make in
             make.edges.equalTo()(self)
-        }
-    }
-    
-    override func intrinsicContentSize() -> CGSize {
-        if avatarViewSize != .PreDefined {
-            return CGSize(width: self.desiredDiameter(), height: self.desiredDiameter())
-        }
-        else {
-            return CGSize(width: UIViewNoIntrinsicMetric, height: UIViewNoIntrinsicMetric)
+            
+            if self.avatarViewSize != .PreDefined {
+                make.width.equalTo()(self.desiredDiameter())
+                make.height.equalTo()(self.desiredDiameter())
+            }
         }
     }
     
@@ -137,14 +136,16 @@ class AvatarView: UIControl {
                 // extract the first initial
                 let firstName = p.valueForKey("firstName") as? String ?? ""
                 var firstInitial = ""
-                if count(firstName) > 0 {
-                    firstInitial = firstName.substringWithRange(Range<String.Index>(start: firstName.startIndex, end: advance(firstName.startIndex, 1)))
+                if firstName.characters.count > 0 {
+                    let index: String.Index = firstName.startIndex.advancedBy(1)
+                    firstInitial = firstName.substringToIndex(index)
                 }
                 // extract the last initial
                 let lastName = p.valueForKey("lastName") as? String ?? ""
                 var lastInitial = ""
-                if count(lastName) > 0 {
-                    lastInitial = lastName.substringWithRange(Range<String.Index>(start: lastName.startIndex, end: advance(lastName.startIndex, 1)))
+                if lastName.characters.count > 0 {
+                    let index: String.Index = lastName.startIndex.advancedBy(1)
+                    lastInitial = lastName.substringToIndex(index)
                 }
                 
                 // set the initials

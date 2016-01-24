@@ -18,8 +18,8 @@ class TeamView: UIView {
     let containerView = UIView()
     let centeringView = UIView()
     let playerAvatarView = AvatarView(size: .Large)
-    let incrementButton: UIButton = UIButton.buttonWithType(.System) as! UIButton
-    let decrementButton: UIButton = UIButton.buttonWithType(.System) as! UIButton
+    let incrementButton = UIButton(type: .System)
+    let decrementButton = UIButton(type: .System)
     
     var team: Team? {
         willSet (newTeam) {
@@ -69,11 +69,9 @@ class TeamView: UIView {
         // perform common init
         self.commonInit()
     }
-
-    required init(coder aDecoder: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        // perform common init
         self.commonInit()
     }
     
@@ -253,37 +251,37 @@ class TeamView: UIView {
     
     // MARK: - KVO
     
-    override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
-            if keyPath == "isServing" {
-                let isServing = self.team?.isServing ?? false
-                let changed = self.headerView.isServing != isServing
-                
-                // speak
-                if isServing && changed {
-                    SpeechHelper.sharedSpeechHelper.utterServingTeam(self.team!)
-                }
-                self.headerView.isServing = isServing
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        if keyPath == "isServing" {
+            let isServing = self.team?.isServing ?? false
+            let changed = self.headerView.isServing != isServing
+            
+            // speak
+            if isServing && changed {
+                SpeechHelper.sharedSpeechHelper.utterServingTeam(self.team!)
             }
-            else if keyPath == "hasMatchPoint" {
-                let isMatchPoint = self.team?.hasMatchPoint ?? false
-                let changed = self.headerView.isMatchPoint != isMatchPoint
-                
-                // speak
-                if isMatchPoint && changed {
-                    SpeechHelper.sharedSpeechHelper.utterMatchPointTeam(self.team!)
-                }
-                self.headerView.isMatchPoint = isMatchPoint
+            self.headerView.isServing = isServing
+        }
+        else if keyPath == "hasMatchPoint" {
+            let isMatchPoint = self.team?.hasMatchPoint ?? false
+            let changed = self.headerView.isMatchPoint != isMatchPoint
+            
+            // speak
+            if isMatchPoint && changed {
+                SpeechHelper.sharedSpeechHelper.utterMatchPointTeam(self.team!)
             }
-            else if keyPath == "currentScore" {
-                var score = 0
-                
-                if let aTeam = self.team {
-                    score = aTeam.currentScore
-                }
-                self.scoreLabel.text = String(score)
+            self.headerView.isMatchPoint = isMatchPoint
+        }
+        else if keyPath == "currentScore" {
+            var score = 0
+            
+            if let aTeam = self.team {
+                score = aTeam.currentScore
             }
-            else {
-                super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
-            }
+            self.scoreLabel.text = String(score)
+        }
+        else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+        }
     }
 }

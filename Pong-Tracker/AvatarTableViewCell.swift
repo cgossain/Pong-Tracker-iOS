@@ -17,8 +17,8 @@ class AvatarTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.commonInit()
     }
-
-    required init(coder aDecoder: NSCoder) {
+    
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.commonInit()
     }
@@ -29,8 +29,8 @@ class AvatarTableViewCell: UITableViewCell {
         
         // title label
         self.contentView.addSubview(titleLabel)
-        self.titleLabel.setContentHuggingPriority(1000, forAxis: UILayoutConstraintAxis.Horizontal)
-        self.titleLabel.textAlignment = NSTextAlignment.Left
+        titleLabel.setContentHuggingPriority((UILayoutPriorityFittingSizeLevel - 10), forAxis: .Horizontal)
+        titleLabel.textAlignment = .Left
         
         // constraints
         self.setupConstraints()
@@ -40,14 +40,14 @@ class AvatarTableViewCell: UITableViewCell {
     
     func setupConstraints() {
         // avatar view
-        self.avatarView.mas_makeConstraints { make in
+        avatarView.mas_makeConstraints { make in
             make.top.equalTo()(self.contentView.mas_top).with().offset()(8)
             make.bottom.equalTo()(self.contentView.mas_bottom).with().offset()(-8)
             make.leading.equalTo()(self.contentView.mas_leading).with().offset()(15)
         }
         
         // title label
-        self.titleLabel.mas_makeConstraints { make in
+        titleLabel.mas_makeConstraints { make in
             make.leading.equalTo()(self.avatarView.mas_trailing).with().offset()(15)
             make.centerY.equalTo()(self.contentView)
         }

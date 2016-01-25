@@ -8,8 +8,10 @@
 
 import UIKit
 
+let kRFIDEventSourceRegistrationURL = "YOUR_EVENT_SOURCE_URL"
 let kParticleIOAccessToken = "YOUR_ACCESS_TOKEN"
 let kParticleIODeviceID = "YOUR_DEVICE_ID"
+
 let kScoreLimitInterval = 1.0
 
 let ControlPadViewControllerRFIDTagScannedNotification = "com.controlpadviewcontroller.tagscannednotification"
@@ -137,8 +139,7 @@ class ControlPadViewController: UIViewController {
     }
     
     func registerForSentEvents() {
-        let rfidEventURL = "http://someeventsourceurl"
-        rfidEventSource = EventSource.eventSourceWithURL(NSURL(string: rfidEventURL)) as? EventSource
+        rfidEventSource = EventSource.eventSourceWithURL(NSURL(string: kRFIDEventSourceRegistrationURL)) as? EventSource
         
         // listen for the status event
         rfidEventSource?.addEventListener("STATUS", handler: {[unowned self] (event: Event!) -> Void in

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3503AD61693EBCBC1E0751BED1EEC373C7299C8E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "3503AD61693EBCBC1E0751BED1EEC373C7299C8E" : 0,
+    "20ADF869B662212A1887DCB1523BC875B954B816" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "20D1396B-CF00-40A1-99CB-080B995E6E0E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "3503AD61693EBCBC1E0751BED1EEC373C7299C8E" : "Pong-Tracker",
+    "20ADF869B662212A1887DCB1523BC875B954B816" : "AppController\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Pong-Tracker",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Pong-Tracker.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cgossain\/AppController.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "20ADF869B662212A1887DCB1523BC875B954B816"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github-personal.com:cgossain\/Pong-Tracker-iOS.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3503AD61693EBCBC1E0751BED1EEC373C7299C8E"
+    }
+  ]
+}

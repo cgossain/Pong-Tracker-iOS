@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10217A8C1C55AD1C002F8D32 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 10217A8B1C55AD1C002F8D32 /* README.md */; };
+		10217A8E1C55AE38002F8D32 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 10217A8D1C55AE38002F8D32 /* LICENSE */; };
 		10223E051B49A5390067D555 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10223E041B49A5390067D555 /* AvatarView.swift */; };
 		10223E071B49AF9F0067D555 /* AvatarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10223E061B49AF9F0067D555 /* AvatarTableViewCell.swift */; };
 		10223E091B49BC940067D555 /* PlayersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10223E081B49BC940067D555 /* PlayersListViewController.swift */; };
@@ -55,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		10217A8B1C55AD1C002F8D32 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		10217A8D1C55AE38002F8D32 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../AppController/LICENSE; sourceTree = "<group>"; };
 		10223E041B49A5390067D555 /* AvatarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		10223E061B49AF9F0067D555 /* AvatarTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarTableViewCell.swift; sourceTree = "<group>"; };
 		10223E081B49BC940067D555 /* PlayersListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersListViewController.swift; sourceTree = "<group>"; };
@@ -185,6 +189,8 @@
 		86E853B41AF6D490008CB469 = {
 			isa = PBXGroup;
 			children = (
+				10217A8B1C55AD1C002F8D32 /* README.md */,
+				10217A8D1C55AE38002F8D32 /* LICENSE */,
 				86E853BF1AF6D490008CB469 /* Pong-Tracker */,
 				86E853D81AF6D490008CB469 /* Pong-TrackerTests */,
 				86E853BE1AF6D490008CB469 /* Products */,
@@ -356,6 +362,7 @@
 			files = (
 				86E853CB1AF6D490008CB469 /* Main.storyboard in Resources */,
 				86E853D01AF6D490008CB469 /* LaunchScreen.xib in Resources */,
+				10217A8E1C55AE38002F8D32 /* LICENSE in Resources */,
 				86E853CD1AF6D490008CB469 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +418,7 @@
 				1048783C1B1BFFD900E4CB01 /* GameManager.swift in Sources */,
 				10D1E1121B3E28A10071AFF3 /* WinningTeamViewController.swift in Sources */,
 				86F56FEA1AF9774E001F620A /* Game.swift in Sources */,
+				10217A8C1C55AD1C002F8D32 /* README.md in Sources */,
 				86E853C61AF6D490008CB469 /* Pong_Tracker.xcdatamodeld in Sources */,
 				1052BF771B439D2200C7904C /* TextFieldTableViewCell.swift in Sources */,
 				10223E101B49C0490067D555 /* GSCoreDataManager.m in Sources */,
